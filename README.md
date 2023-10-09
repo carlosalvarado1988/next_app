@@ -326,3 +326,29 @@ return NextResponse.json(
 - To update an object, the client should send a PUT or PATCH request to an API endpoint and include the object in the request body. PUT and PATCH are often used interchangeably. However, PUT is intended for replacing objects, while PATCH is intended for updating one or more properties.
 - To delete an object, the client should send a DELETE request to an API endpoint. The request body should be empty.
 - We can use Postman for testing APIs. With Postman we can easily send HTTP requests to API endpoints and inspect the responses.
+
+# Database integration with Prisma
+
+Testing and installing MySQL engine and workbench tool locally - https://dev.mysql.com/downloads/mysql/
+we also added prisma ORM https://www.prisma.io/
+installed the extension in VScode for Prisma official and install npm i primsa
+we use npx prisma to do the setup
+creating models, they can have relationships as well as db tables. https://www.prisma.io/docs/concepts/components/prisma-schema/data-model
+creating migrations with npx prisma migrate dev
+
+whenver we edit a model, we want to format it:
+
+> npx prisma format
+
+whenever we change or add a model, we need to run the prisma migration
+
+> npx prisma migrate dev
+
+created the prisma client instance to be using in the code
+
+> import { PrismaClient } from "@prisma/client";
+> const prisma = new PrismaClient();
+> export default prisma;
+
+note: to use Prisma client instance in development, we need to add additional code to prevent the refresh (2twice load) from dev to create too many instances in every import.
+see: https://www.prisma.io/docs/guides/other/troubleshooting-orm/help-articles/nextjs-prisma-client-dev-practices

@@ -1,66 +1,73 @@
 import { NextRequest, NextResponse } from "next/server";
 import schema from "../schema";
+import prisma from "@/prisma/client";
+
+import { reportError, findUserById } from "../../utils";
 
 interface GetProps {
-  params: { id: number };
+  params: { id: string };
 }
 
-export function GET(request: NextRequest, { params }: GetProps) {
-  // fetch data from db
-  if (params.id > 10)
-    return NextResponse.json({ error: "User not found" }, { status: 404 });
-  return NextResponse.json({
-    id: 1,
-    name: "Carlos",
-  });
+export async function GET(request: NextRequest, { params }: GetProps) {
+  try {
+    // fetch data from db\
+    const user = await findUserById(parseInt(params.id));
+    if (!user) return reportError("User not found", 404);
+    return NextResponse.json(user);
+  } catch (e: unknown) {
+    return reportError(e, 500);
+  }
 }
 
-// updating an object in db using API
-// we can use PUT or PATCH methods, technically, PUT is to replace the entire object, PATCH is to update some keys only
 interface PutProps extends GetProps {
   name: string;
 }
 
+// we can use PUT or PATCH methods, technically, PUT is to replace the entire object, PATCH is to update some keys only
 export async function PUT(request: NextRequest, { params }: PutProps) {
-  // validate params && request.body
-  const body = await request.json();
-  const { id } = params;
-  // -> if invalid, return 400 status
-  // validate it must be a number
-  //   if (typeof id !== "number") --> intereting, even 1 comes as a number, it needs more robust validation
-  //     return NextResponse.json(
-  //       { error: "Id is required as a number" },
-  //       { status: 400 }
-  //     );
+  try {
+    // validate params && request.body
+    const body = await request.json();
 
-  // if (!body.name) --> vanilla js validation, now we use a library zod
-  //   return NextResponse.json({ error: "Name is required" }, { status: 400 });
-  const validation = schema.safeParse(body);
-  if (!validation.success)
-    return NextResponse.json(
-      { error: validation.error.errors },
-      { status: 400 }
-    );
+    const validation = schema.safeParse(body);
+    if (!validation.success)
+      return NextResponse.json(
+        { error: validation.error.errors },
+        { status: 400 }
+      );
 
-  // Fetch user with given id -- simulate call to db
+    // validate user exists in db
+    const user = await findUserById(parseInt(params.id));
+    if (!user) return reportError("User not found", 404);
 
-  // -> if user does not exists, return 404 status, not found
-  if (id > 10)
-    return NextResponse.json({ error: "User not found" }, { status: 404 });
+    // Update the user in db
+    const updatedUser = await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        name: body.name,
+        email: body.email,
+      },
+    });
 
-  // Update the user -- simulate update call to db
-
-  // return updated user
-  return NextResponse.json({ id, name: body.name });
+    // return updated user
+    return NextResponse.json(updatedUser);
+  } catch (e: unknown) {
+    return reportError(e, 500);
+  }
 }
 
 export async function DELETE(request: NextRequest, { params }: GetProps) {
-  const { id } = params;
-  // fetch user from db
-  // -> if user does not exists, return 404 status, not found
-  if (id > 10)
-    return NextResponse.json({ error: "User not found" }, { status: 404 });
-  // Delete the user --> simulated
-  // return 200 response
-  return NextResponse.json({}); // default to status 200
+  try {
+    // fetch user from db
+    const user = await findUserById(parseInt(params.id));
+    if (!user) return reportError("User not found", 404);
+
+    // delete user from db
+    await prisma.user.delete({ where: { id: user.id } });
+
+    // default to status 200
+    return NextResponse.json({});
+  } catch (e) {
+    return reportError(e, 500);
+  }
 }
