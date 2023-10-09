@@ -51,7 +51,7 @@ export async function PUT(request: NextRequest, { params }: PutProps) {
   // Update the user -- simulate update call to db
 
   // return updated user
-  return NextResponse.json({ id: 1, name: body.name });
+  return NextResponse.json({ id, name: body.name });
 }
 
 export async function DELETE(request: NextRequest, { params }: GetProps) {
