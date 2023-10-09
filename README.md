@@ -169,3 +169,12 @@ we can think about 3 ways of showing loading states.
 2 wrapping the children in a suspense component to handle loading states.
 we do this by adding the element in the layout file
 3 using the special file loading.tsx to get loading states under the hood
+
+#### Handling not found files
+
+there is a build in function within next to navigate to a not-found.tsx view: notFound()
+
+> import { notFound } from "next/navigation";
+> if (id > 10) notFound();
+
+when a new not-found.tsx page is added to the same level of a page.tsx, then that will be the view rendered.
