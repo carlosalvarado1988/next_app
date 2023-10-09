@@ -1,9 +1,17 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Visit this site:
 
 deployed site: https://next-app-ten-azure.vercel.app/
 
-## Getting Started
+## Getting Started with local dev, backbones of this project
 
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+
+To learn more about Next.js, take a look at the following resources:
+
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 First, run the development server:
 
 ```bash
@@ -20,37 +28,29 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
+##### Deploy on Vercel
 
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
-## Personal notes:
+# Personal notes:
 
-video: https://www.youtube.com/watch?v=ZVnjOPwW4ZA
-tuto repo: https://members.codewithmosh.com/courses/enrolled/240431
+- video: https://www.youtube.com/watch?v=ZVnjOPwW4ZA
+- tuto repo: https://members.codewithmosh.com/courses/enrolled/240431
 
-carlosalvarado in ~/Documents/CARLOS_3_09_23/Current Personal/2023/Consultant/Dev/projects $ npx create-next-app@13.4
-Need to install the following packages:
-create-next-app@13.4.19
-Ok to proceed? (y) y
-✔ What is your project named? … next_app
-✔ Would you like to use TypeScript? Yes
-✔ Would you like to use ESLint? Yes
-✔ Would you like to use Tailwind CSS? Yes ----> so that we can use ctrl + space to see intelligence suggestions
-✔ Would you like to use `src/` directory? … No
-✔ Would you like to use App Router? (recommended) Yes
-✔ Would you like to customize the default import alias? … No
+When creating the app, selected the following options
+
+- create-next-app@13.4.19
+- Ok to proceed? (y) y
+
+- ✔ What is your project named? … next_app
+- ✔ Would you like to use TypeScript? Yes
+- ✔ Would you like to use ESLint? Yes
+- ✔ Would you like to use Tailwind CSS? Yes ----> so that we can use ctrl + space to see intelligence suggestions
+- ✔ Would you like to use `src/` directory? … No
+- ✔ Would you like to use App Router? (recommended) Yes
+- ✔ Would you like to customize the default import alias? … No
 
 ### Adding new pages
 
@@ -82,7 +82,7 @@ Pages router its deprecated, it does not support server components so you should
 'use client' decorator. we use this to tell nextjs this file will be rendered in the browser
 
 Fetching data:
-![Alt text](readme_imgs/readme_imgs/image-4.png)
+![Alt text](readme_imgs/image-4.png)
 using jsonplaceholder.typicode.com to get random data
 
 to fetch data, whenever possible, we should fetch it from server-side components
@@ -140,12 +140,12 @@ install: https://daisyui.com/docs/install/
 
 #### special files in Nextjs
 
-page.tsx: We already used this to create our pages.
-layout.tsx: Defined to create the layouts per folder.
-loading.tsx: Optional loading component can be used to show a loading state.
-error.tsx: Optional error state can be used only to show the error in a specific application part.
-template.tsx: Optional and very similar to layout, but this one will always remount on navigation, and the state is not shared.
-head.tsx: Optional to add a different <head> tag for a specific route.
+- page.tsx: We already used this to create our pages.
+- layout.tsx: Defined to create the layouts per folder.
+- loading.tsx: Optional loading component can be used to show a loading state.
+- error.tsx: Optional error state can be used only to show the error in a specific application part.
+- template.tsx: Optional and very similar to layout, but this one will always remount on navigation, and the state is not shared.
+- head.tsx: Optional to add a different <head> tag for a specific route.
 
 #### About navigation with Link
 
@@ -194,3 +194,27 @@ Note: for specific errros in the layout.tsx , we need a special catcher file for
 the error event is automatically passed to the component, so we can do stuff with it. look at the error.tsx file for the example
 
 Login error in prod: Sentry (sentry.io/welcome/)
+
+## Routing and Navigation (summary)
+
+terms:
+
+- Client cache, Dynamic routes, Layout, Prefetching
+
+- The new App router in Next.js uses convention over configuration to define routes. It looks for special files such as page.tsx, layout.tsx, loading.tsx, route.tsx, etc.
+- With the App router, we can colocate our pages and their building blocks (eg components, services, etc). This helps us better organize our projects as we can keep highly related files next to each other. No need to dump all the components in a centralized components directory.
+- A dynamic route is one that takes one or more parameters. To add parameters to our routes, we wrap directory names with square brackets (eg [id]).
+- In standard React applications, we use the state hook for managing component state. In server-rendered applications, however, we use query string parameters to keep state. This also allows us to bookmark our pages in specific state. For example, we can bookmark a filtered and sorted list of products.
+- We use layoutfiles (layout.tsx) to create UI that is shared between multiple pages. The root layout (/app/layout.tsx) defines the common UI for all our pages. We can create additional layouts for specific areas of our application (eg /app/admin/layout.tsx).
+- To provide smooth navigation between pages, the Link component prefetches the links that are in the viewport.
+- As the user moves around our application, Next.js stores the page content in a cache on the client. So, if they revisit a page that already exists in the cache, Next.js simply grabs it from the cache instead of making a new request to the server. The client cache exists in the browser’s memory and lasts for an entire session. It gets reset when we do a full refresh.
+
+## File Conventions
+
+page.tsx
+layout.tsx
+loading.tsx
+not-found.tsx
+error.tsx
+
+![Alt text](readme_imgs/image-routes-and-navigation.png)
