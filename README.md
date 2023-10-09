@@ -195,11 +195,13 @@ the error event is automatically passed to the component, so we can do stuff wit
 
 Login error in prod: Sentry (sentry.io/welcome/)
 
-## Routing and Navigation (summary)
+# Routing and Navigation (summary)
 
-terms:
+#### terms:
 
 - Client cache, Dynamic routes, Layout, Prefetching
+
+#### Summary
 
 - The new App router in Next.js uses convention over configuration to define routes. It looks for special files such as page.tsx, layout.tsx, loading.tsx, route.tsx, etc.
 - With the App router, we can colocate our pages and their building blocks (eg components, services, etc). This helps us better organize our projects as we can keep highly related files next to each other. No need to dump all the components in a centralized components directory.
@@ -218,3 +220,66 @@ not-found.tsx
 error.tsx
 
 ![Alt text](readme_imgs/image-routes-and-navigation.png)
+
+# Building an API
+
+conventional file: route.tsx
+NextRequest and NextResponse are used as middlewares
+api objects validation with Zod -> https://zod.dev/
+
+import { z } from "zod";
+
+const schema = z.object({
+name: z.string().min(3),
+// email: z.string().email(),
+// age: z.number(),
+});
+
+export default schema;
+
+///// ----- /////
+
+const validation = schema.safeParse(body);
+if (!validation.success)
+return NextResponse.json(
+{ error: validation.error.errors },
+{ status: 400 }
+// if error is found, this is the structure:
+// {
+// "error": [
+// {
+// "code": "too_small",
+// "minimum": 3,
+// "type": "string",
+// "inclusive": true,
+// "exact": false,
+// "message": "String must contain at least 3 character(s)",
+// "path": [
+// "name"
+// ]
+// }
+// ]
+// }
+);
+
+# Building API (summary):
+
+#### Terms:
+
+- API endpoint
+- Data validation library: Zod
+- HTTP Methods and status codes
+- Route handlers
+- Postman tool
+
+#### Summary
+
+- To build APIs, we add a route file (route.tsx) in a directory. Note that within a single directory, we can either have a page or a route file but not both. •In route files, we add one or more route handlers. A route handler is a function that handles an HTTP request.
+- HTTP requests have a method which can be GET (for getting data), POST (for creating data), PUT/PATCH (for updating data), and DELETE (for deleting data).
+- HTTP protocol defines standard status codes for different situations. A few commonly used ones include: 200 (for success), 201 (when a resource is created), 400 (indicating a bad request), 404 (if something is not found), and 500 (for internal server errors).
+- To create an object, the client should send a POST request to an API endpoint and include the object in the body of the request.
+- We should always validate objects sent by clients. We can validate objects using simple if statements but as our applications get more complex, we may end up with complex and nested if statements.
+- Data validation libraries, such as Zod, allow us to define the structure of our objects using a simple syntax, taking care of all the complexity involved in data validation.
+- To update an object, the client should send a PUT or PATCH request to an API endpoint and include the object in the request body. PUT and PATCH are often used interchangeably. However, PUT is intended for replacing objects, while PATCH is intended for updating one or more properties.
+- To delete an object, the client should send a DELETE request to an API endpoint. The request body should be empty.
+- We can use Postman for testing APIs. With Postman we can easily send HTTP requests to API endpoints and inspect the responses.
