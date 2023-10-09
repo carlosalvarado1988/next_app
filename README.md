@@ -161,3 +161,11 @@ note that next/router ----> useRouter is depricated:
 > Error: NextRouter was not mounted. https://nextjs.org/docs/messages/next-router-not-mounted
 
 instead use next/navigation
+
+#### Suspense and Loading
+
+we can think about 3 ways of showing loading states.
+1 directly in a parent component
+2 wrapping the children in a suspense component to handle loading states.
+we do this by adding the element in the layout file
+3 using the special file loading.tsx to get loading states under the hood
