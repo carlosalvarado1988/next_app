@@ -68,12 +68,12 @@ as we call it client side navigation to optimize what its being downloaded
 ## Client-side Components CSC vs Server-side components SSC
 
 we should default to Server-side components and do as minimal Client-side components
-![Alt text](image.png)
-![Alt text](image-1.png)
+![Alt text](readme_imgs/image.png)
+![Alt text](readme_imgs/image-1.png)
 
 note that server side components limit the interactivity with the user, so we use the Atomic desing to decouple a strategy.
-![Alt text](image-2.png)
-![Alt text](image-3.png)
+![Alt text](readme_imgs/image-2.png)
+![Alt text](readme_imgs/image-3.png)
 
 ### Pages router vs New app router
 
@@ -82,7 +82,7 @@ Pages router its deprecated, it does not support server components so you should
 'use client' decorator. we use this to tell nextjs this file will be rendered in the browser
 
 Fetching data:
-![Alt text](image-4.png)
+![Alt text](readme_imgs/readme_imgs/image-4.png)
 using jsonplaceholder.typicode.com to get random data
 
 to fetch data, whenever possible, we should fetch it from server-side components
@@ -111,12 +111,12 @@ you need to build the app for production, and because next is using the default 
 > npm run start // to run the prod build
 
 when you build, you can identify which page is static or dynamic
-![Alt text](image-5.png)
-![Alt text](image-6.png)
+![Alt text](readme_imgs/image-5.png)
+![Alt text](readme_imgs/image-6.png)
 
 ### Styling nextjs applicaitons
 
-![Alt text](image-7.png)
+![Alt text](readme_imgs/image-7.png)
 
 #### CSS Modules.
 
@@ -146,3 +146,18 @@ loading.tsx: Optional loading component can be used to show a loading state.
 error.tsx: Optional error state can be used only to show the error in a specific application part.
 template.tsx: Optional and very similar to layout, but this one will always remount on navigation, and the state is not shared.
 head.tsx: Optional to add a different <head> tag for a specific route.
+
+#### About navigation with Link
+
+only downloads the content of the target page.
+pre-fetches link that are in portview
+caches pages on the client
+
+#### Navigation
+
+note that next/router ----> useRouter is depricated:
+
+> Unhandled Runtime Error
+> Error: NextRouter was not mounted. https://nextjs.org/docs/messages/next-router-not-mounted
+
+instead use next/navigation
