@@ -178,3 +178,19 @@ there is a build in function within next to navigate to a not-found.tsx view: no
 > if (id > 10) notFound();
 
 when a new not-found.tsx page is added to the same level of a page.tsx, then that will be the view rendered.
+
+#### Error handling
+
+in dev mode (npm run dev) we can see a stacktrace of the error, but in production build, a generic error page is displayed.
+
+> Application error: a server-side exception has occurred (see the server logs for more information).
+> Digest: 3461117963
+
+we can create a custom error page with the special file: error.tsx (it must be a client-component wuth 'use client' clause)
+error pages can be at any level of the application
+
+Note: for specific errros in the layout.tsx , we need a special catcher file for errors, name global-error.tsx at the app level as well.
+
+the error event is automatically passed to the component, so we can do stuff with it. look at the error.tsx file for the example
+
+Login error in prod: Sentry (sentry.io/welcome/)
