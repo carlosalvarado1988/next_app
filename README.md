@@ -380,3 +380,25 @@ Format schema file
 Creting and running a migration
 
 > npm prisma migrate dev
+
+# Uploading files with Cloudinary
+
+#### Setup cloudinary
+
+install the npm package: https://console.cloudinary.com/console/c-7a6c04749c39512e5174cf535ef869/getting-started
+cmplete the setup for next env: https://next.cloudinary.dev/
+
+- To add the upload widget, we need to get the upload preset key from settings of our account.
+  https://console.cloudinary.com/settings/c-7a6c04749c39512e5174cf535ef869/upload
+  make sure to add the upload preset.
+  - we create an unsign preset for this project
+    <CldUploadWidget uploadPreset="s9jrkiie">
+    {({ open }) => (
+    <button className="btn btn-primary" onClick={() => open()}>
+    Upload
+    </button>
+    )}
+    </CldUploadWidget>
+
+this simple integration brings to life the upload component:
+![Alt text](readme_imgs/cloudinary-upload.png)
