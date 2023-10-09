@@ -402,3 +402,11 @@ cmplete the setup for next env: https://next.cloudinary.dev/
 
 this simple integration brings to life the upload component:
 ![Alt text](readme_imgs/cloudinary-upload.png)
+
+# Authentication with Next Auth
+
+installing the npm package: https://next-auth.js.org/ (note: will turn into auth.js)
+
+since Next updated its way to handle routes, we ensure we follow the new Route Handlers way: https://next-auth.js.org/configuration/initialization#route-handlers-app
+
+We need to generate a NEXTAUTH_SECRET, using openssl
