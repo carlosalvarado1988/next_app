@@ -1,5 +1,7 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+deployed site: https://next-app-ten-azure.vercel.app/
+
 ## Getting Started
 
 First, run the development server:
@@ -36,6 +38,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 ## Personal notes:
 
 video: https://www.youtube.com/watch?v=ZVnjOPwW4ZA
+tuto repo: https://members.codewithmosh.com/courses/enrolled/240431
 
 carlosalvarado in ~/Documents/CARLOS_3_09_23/Current Personal/2023/Consultant/Dev/projects $ npx create-next-app@13.4
 Need to install the following packages:
@@ -134,3 +137,12 @@ one benefit is many classes out of the box, and whenever a component is removed 
 
 This is a boostrap for tailwind
 install: https://daisyui.com/docs/install/
+
+#### special files in Nextjs
+
+page.tsx: We already used this to create our pages.
+layout.tsx: Defined to create the layouts per folder.
+loading.tsx: Optional loading component can be used to show a loading state.
+error.tsx: Optional error state can be used only to show the error in a specific application part.
+template.tsx: Optional and very similar to layout, but this one will always remount on navigation, and the state is not shared.
+head.tsx: Optional to add a different <head> tag for a specific route.
