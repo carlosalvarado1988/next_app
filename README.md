@@ -352,3 +352,31 @@ created the prisma client instance to be using in the code
 
 note: to use Prisma client instance in development, we need to add additional code to prevent the refresh (2twice load) from dev to create too many instances in every import.
 see: https://www.prisma.io/docs/guides/other/troubleshooting-orm/help-articles/nextjs-prisma-client-dev-practices
+
+#### Terms
+
+- Database engine: mysql
+- Object Oriented Mapper (ORM) - Prisma
+- Models and migrations
+
+#### Summary
+
+- We use databases to permanently store data. There are many database engines available. Some of the popular ones are MySQL, PostgreSQL, MongoDB, etc.
+- To connect our applications to a database, we often use an Object-relational Mapper (ORM). An ORM is a tool that sits between a database and an application. It’s responsible for mapping database records to objects in an application. Prisma is the most widely-used ORM for Next.js (or Node.js) applications.
+- To use Prisma, first we have to define our data models. These are entities that represent our application domain, such as User, Order, Customer, etc. Each model has one or more fields (or properties).
+- Once we create a model, we use Prisma CLI to create a migrationfile. A migration file contains instructions to generate or update database tables to match our models. These instructions are in SQL language, which is the language database engines understand.
+- To connect with a database, we create an instance of PrismaClient. This client object gets automatically generated whenever we create a new migration. It exposes properties that represent our models (eg user).
+
+#### Key commands
+
+Setting up Prisma
+
+> npx prisma init
+
+Format schema file
+
+> npx prisma format
+
+Creting and running a migration
+
+> npm prisma migrate dev
