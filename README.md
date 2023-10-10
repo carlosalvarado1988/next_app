@@ -405,8 +405,59 @@ this simple integration brings to life the upload component:
 
 # Authentication with Next Auth
 
-installing the npm package: https://next-auth.js.org/ (note: will turn into auth.js)
+- installing the npm package: https://next-auth.js.org/ (note: will turn into auth.js)
 
-since Next updated its way to handle routes, we ensure we follow the new Route Handlers way: https://next-auth.js.org/configuration/initialization#route-handlers-app
+- Since Next updated its way to handle routes, we ensure we follow the new Route Handlers way: https://next-auth.js.org/configuration/initialization#route-handlers-app
 
-We need to generate a NEXTAUTH_SECRET, using openssl
+- We need to generate a NEXTAUTH_SECRET, using openssl: openssl rand -base64 32
+
+#### Configure Google Provider for Next Auth
+
+- docs: https://next-auth.js.org/providers/google
+
+  - using ekos sv project: https://console.cloud.google.com/apis/credentials/consent?authuser=4&project=next-app-401523&supportedpurview=project
+
+  - in the consent screen, we choose external type.
+  - we setup the Oauth consent screen, the scopes, test users in the wizard
+    - in the scopes, added .../auth/userinfo.email and .../auth/userinfo.profile
+
+- the authorized origin is localhost
+- the redirect url is grabbed from the next auth for google - https://next-auth.js.org/providers/google
+  - For production: https://{YOUR_DOMAIN}/api/auth/callback/google
+  - For development: http://localhost:3000/api/auth/callback/google
+
+#### Authentication sessions
+
+- sessions in nextjs are created as cookies, as JSON web tokens.
+- for testing purposes, creted the GET token endpoint to better understand the session in NextJS
+
+created this file: /auth/token/route.tsx
+import { getToken } from "next-auth/jwt";
+import { NextRequest, NextResponse } from "next/server";
+
+export async function GET(request: NextRequest) {
+const token = await getToken({ req: request });
+return NextResponse.json(token);
+}
+
+- to check the token: http://localhost:3000/api/auth/token
+
+#### Accessing sessions on the client
+
+- in the layout.tsx file, we add the sessionProvider component from 'next-auth/react'
+- we need to create this as a wrapper provider, with the 'use client' because it will interact client rendering and events.
+- with this wrapper, now we have access to logged in data from the google provider, using the hook: useSession(). for instance in the NavBar component
+- wherever we use the useSession() hook, we need to turn the component to a client-component (example in NavBar)
+- but we can also access the session data from the server.
+
+#### Accessing sessions on the server
+
+- to access data in the server we use getServerSession() from "next-auth", we use page.tsx in the root directory, meaning home component file for this example
+- this functions uses the auth options of the provider, the same way as the nextAuth handler
+
+#### Logout session
+
+the logout session is already handled by next-auth, we <Link> to /api/auth/signout and it will take us to the logout provider page
+we can customize it on the provider page
+
+#### Protecting routes
