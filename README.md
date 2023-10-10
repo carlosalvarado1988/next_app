@@ -461,3 +461,87 @@ the logout session is already handled by next-auth, we <Link> to /api/auth/signo
 we can customize it on the provider page
 
 #### Protecting routes
+
+we use a middleware to inspect every request and determine the next step.
+
+- nextjs is looking for a middleware.ts file in the root directory to execute the logic
+- this is an example of how to redirect a call.
+  export function middleware(request: NextRequest) {
+  return NextResponse.redirect(new URL("new-page-redirected", request.url));
+  }
+
+and this object is to determine the matches:
+
+export const config = {
+// \*: zero or more
+// +: one or more
+// ?: zero or more
+matcher: ["/users/:id\*"],
+};
+
+documentation: https://next-auth.js.org/tutorials/securing-pages-and-api-routes
+
+#### Storing user's data with database adapters
+
+documentation: https://next-auth.js.org/adapters --> https://authjs.dev/reference/adapter/prisma
+
+- we install the npm package: npm i @next-auth/prisma-adapter
+- initialize the adapter in NextAuth route.ts
+
+##### Replacing prisma modules
+
+as we are going to store User data from the provider, the prisma adapter dictates the model structure.
+in order to remove our own models, we need to run migrations to clear out the db as well, in preparation of the changes.
+
+> npx prisma migrate dev
+
+now we bring the new models from: https://authjs.dev/reference/adapter/prisma, then again run migrations
+
+after this change, the session strategy becomes to store in the database.
+and by default, the session of NextJS is JWT, JSON web token, so this generates a conflict
+
+at the time of this implementation, we can not use database session with social logins or oauth provider.
+so we dictate the session strategy in the adapter, we set it as jwt to be compatible. (meaning that the token will still be saved in the cookies of the browser)
+
+session: {
+strategy: "jwt",
+},
+
+##### allowing user / pass credential provider with prisma
+
+- we configure as the provider
+- we install bcrypt to compare passwords and its types
+  > npm i bcrypt
+  > npm i --save-dev @types/bcrypt
+- we need to add a password field optional to the User model, to play and store password. (this wont save for goolge provider)
+  > password String?
+- run migration with prisma
+  > npx prisma migrate dev
+
+CredentialsProvider({
+name: "Credentials",
+credentials: {
+email: { label: "Email", type: "email", placeholder: "Email" },
+password: {
+label: "Password",
+type: "password",
+placeholder: "Password",
+},
+},
+async authorize(credentials, \_) {
+if (!credentials?.email || !credentials?.password) {
+return null;
+}
+const user = await prisma.user.findUnique({
+where: { email: credentials?.email },
+});
+if (!user) return null;
+const passwordsMatched = await bcrypt.compare(
+credentials.password,
+user.hashedPassword!
+);
+return passwordsMatched ? user : null;
+},
+}),
+
+##### Registering new Users for CredentialsProvider
