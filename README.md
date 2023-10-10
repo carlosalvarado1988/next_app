@@ -600,3 +600,101 @@ return passwordsMatched ? user : null;
 - you want to generate a new api key and save it in the .env file
 - you install the npm package:
 - now you can configure a module to trigger sending emails, for testing purposes, I have set up an enpoint to trigger it. another example can be an email after registering your user
+- testing domain tied to account email c.alvarado.. , once a custom domain is setup, then any email can recieve
+
+# Optimizations
+
+### Handling images
+
+- always prefer to use the <Image> component from 'next/image' that automatically rezises images for devices.
+- for local images (stored in public folder), nextjs handles the rendering with light overhead.
+- for remote images, we need to configure the `remotePatterns`, see docs: https://nextjs.org/docs/pages/building-your-application/optimizing/images#remote-images
+- this file should be the more explicit possible for security concerns:
+
+  > module.exports = {
+  >
+  > images: {
+  >
+  > remotePatterns: [
+  >
+  > > {
+  >
+  > > protocol: 'https',
+  >
+  > > hostname: 's3.amazonaws.com',
+  >
+  > > port: '',
+  >
+  > > pathname: '/my-bucket/\*\*',
+  >
+  > > },
+  >
+  > > ],
+  >
+  > > },
+  >
+  > > }
+
+- you can also style it with tailwind,
+
+  > div className="relative h-screen"
+
+  > Image fill className="object-cover" sizes="100vw"
+
+- note the parent div with relative position, this is because we set a fill position for the image itself. the h-screen property means it will take height: 100% of the screen
+
+# Using 3rd party scripts - Google Analytics - where to put them?
+
+if you need it at a single page, use the page.ts file.
+if you need them in a group of pages, use the layout.ts file
+if you need it for all pages, use the layout at the root project
+
+to setup the google analytics, see docs: https://blog.hootsuite.com/how-to-set-up-google-analytics/
+
+# Implementing Fonts
+
+you use the next/font libary
+
+> import { Inter, Roboto } from "next/font/google";
+
+then you create an object with params
+
+> const roboto = Roboto({
+
+> subsets: ["latin"],
+
+> weight: ["400", "500"],
+
+> });
+
+and lastly we apply the className property.
+roboto
+
+>    <body className={roboto.className}>
+
+#### local fonts (other than google)
+
+- you use `import localFont from "next/font/local";`
+- for the demo, poppins font was added to public/fonts/ folder
+- in the object config, you can configure a css variable to refer in styles: `variable: "--font-poppins",`
+
+###### Configure local font with tailwind
+
+- you use the variable to refer in the tailwind config file.
+- first, you change the className reference from `className={localFontPoppins.className}` to `className={localFontPoppins.variable}` Note: with this you will see the reference in the DOM inspector of the dev tools of chorme
+- you add the tailwind.config.ts file, adding to the theme schema:
+  `extend: { fontFamily: {
+  poppins: "var(--font-poppins",
+}}`
+- with this config, the --font-poppins var becomes available to be use as a tailwind style in elements, or into the global css to dictate style in specific elements as well via its symantic
+- adding to an elemnt: `<h1 className="font-bold text-3xl font-poppins">`
+- adding to global css: `h1 { @apply font-extrabold text-2xl mb-3 font-poppins; }`
+
+## Search Engine Optimization
+
+- you can insert metadata at every page level.
+  `export const metadata: Metadata = {
+  title: "Products playground page",
+  description: "a page to test nextjs capabilities",
+};`
+- for dynamic data, like product/id, where the content is dynamic to the data fetched, we also generate dynamic metadata

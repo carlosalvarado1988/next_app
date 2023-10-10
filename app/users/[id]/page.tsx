@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import React from "react";
 
@@ -10,3 +11,13 @@ const UserDetailPage = ({ params: { id } }: Props) => {
 };
 
 export default UserDetailPage;
+
+// This is an example to improve SEO
+// export async function generateMetadata(): Promise<Metadata> {
+//   const user = await fetch(`/api/users/{id}`);
+
+//   return {
+//     title: user.name || "user",
+//     description: "....",
+//   };
+// }
