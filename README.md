@@ -550,3 +550,33 @@ return passwordsMatched ? user : null;
 - this file is accessible in http://localhost:3000/register
 - we send our new user data to our db using prisma client
 - this users list in the db, is used by the CredentialsProvider to validate login for users
+
+##### Custom login and logou pages, Events in nextjs,
+
+- follow this documentation for nextjs: https://next-auth.js.org/configuration/pages
+- Events: NextAuth.js provides a number of events (eg signIn, signOut, createUser, etc) that are useful for auditing or handling any other side effects: https://next-auth.js.org/configuration/events
+- We can provide handlers for these events as part of our NextAuth.js setup: https://next-auth.js.org/configuration/options#events
+
+#### Terms
+
+- Authentication
+- sessionDatabase
+- adapterJSON Web Token (JWT)
+- Middleware
+- Next Auth
+
+#### Summary
+
+- NextAuth.js is a popular authentication library for Next.js applications. It simples the implementation of secure user authentication and authorization. It supports various authentication providers (eg Google, Twitter, GitHub, Credentials, etc).
+- When a user signs in, Next Auth creates an authentication session for that user. By default, authentication sessions are represented using JSON Web Tokens (JWTs). But sessions can also be stored in a database.
+- To access the authentication session on the client, we have to wrap our application with SessionProvider. This component uses React Context to pass the authentication session down the component tree. Since React Context is only available in client components, we have to wrap SessionProvider with a client component.
+- Using middleware we can execute code before a request is completed. That’s an opportunity for us to redirect the user to the login page if they try to access a private part of our application without having a session. Next Auth includes built-in middleware for this purpose.
+- Next Auth comes with many database adapters for storing user and session data.
+
+  ![Alt text](readme_imgs/setup-next-authjs.png)
+  ![Alt text](readme_imgs/protecting-routes-and-accessing-session.png)
+
+# Sending Emails
+
+- we use react.email -> npm i react-email @react-email/components
+-
