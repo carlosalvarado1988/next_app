@@ -545,3 +545,8 @@ return passwordsMatched ? user : null;
 }),
 
 ##### Registering new Users for CredentialsProvider
+
+- we create a route file in: app/api/register/route.ts
+- this file is accessible in http://localhost:3000/register
+- we send our new user data to our db using prisma client
+- this users list in the db, is used by the CredentialsProvider to validate login for users

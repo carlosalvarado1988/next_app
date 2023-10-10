@@ -10,10 +10,6 @@ const schema = z.object({
   password: z.string().min(5),
 });
 
-interface User {
-  email: string;
-  hashedPassword: string;
-}
 export async function POST(request: NextRequest) {
   const body = await request.json();
 
