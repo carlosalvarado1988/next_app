@@ -4,7 +4,7 @@ export const config = {
   // *: zero or more
   // +: one or more
   // ?: zero or more
-  matcher: ["/dashboard/:path*"],
+  matcher: ["/users/:path*"],
 };
 // this matcher redirects any /users/ with or without id to new-page-redirected (in the commented example)
 

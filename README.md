@@ -550,8 +550,9 @@ return passwordsMatched ? user : null;
 - this file is accessible in http://localhost:3000/register
 - we send our new user data to our db using prisma client
 - this users list in the db, is used by the CredentialsProvider to validate login for users
+- testing user: credentials@test.com / torsept2023
 
-##### Custom login and logou pages, Events in nextjs,
+##### Custom login and logout pages, Events in nextjs,
 
 - follow this documentation for nextjs: https://next-auth.js.org/configuration/pages
 - Events: NextAuth.js provides a number of events (eg signIn, signOut, createUser, etc) that are useful for auditing or handling any other side effects: https://next-auth.js.org/configuration/events
@@ -579,4 +580,23 @@ return passwordsMatched ? user : null;
 # Sending Emails
 
 - we use react.email -> npm i react-email @react-email/components
--
+- we add a npm command to see an email preview: "preview-email": "email dev -p 3030" (we specify a different port that our server)
+- this preview command will generate a full application to run the web generator locally, so we add it to gitignore `.react-email/`
+- we create a email directory in the root of our project to collect all components
+- we can visit the local app preview at by running the command `npm run preview-email`: http://localhost:3030
+- we can send the test email without configuring any serve, just right out the box with NextJS
+
+#### Stylimng email templates
+
+- we can do it with css or tailwind
+- to make it scalable with css, we create style objects outside the component
+- we can also use tailwind properties with className, by wrapping the component with the <Tailwind> element that comes with the @react-email/components
+
+#### Sending emails
+
+- in the docs: https://react.email/docs/integrations/resend
+- you want to look for the integrationw with resend (the same creators or react.email)
+- you need to create an account with resend, they have up to 3k email free per month for testing
+- you want to generate a new api key and save it in the .env file
+- you install the npm package:
+- now you can configure a module to trigger sending emails, for testing purposes, I have set up an enpoint to trigger it. another example can be an email after registering your user
