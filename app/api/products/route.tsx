@@ -15,10 +15,7 @@ export async function POST(request: NextRequest) {
     const validation = productSchema.safeParse(body);
 
     if (!validation.success) return reportError(validation.error.errors, 400);
-    // return NextResponse.json(
-    //   { error: validation.error.errors },
-    //   { status: 400 }
-    // );
+
     const newProduct = await prisma.product.create({
       data: {
         name: body.name,
