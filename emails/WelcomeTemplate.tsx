@@ -16,7 +16,7 @@ const WelcomeTemplate = ({ name }: { name: string }) => {
       <Tailwind>
         <Body style={body}>
           <Container>
-            <Text className="font-bold text-3xl">Hello {name}</Text>
+            <Text className="font-bold text-4xl">Hello {name}</Text>
             <Link href="https://next-app-ten-azure.vercel.app/">
               Visit the website
             </Link>
