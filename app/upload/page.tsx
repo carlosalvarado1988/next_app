@@ -21,7 +21,7 @@ const UploadPage = () => {
       )}
       <CldUploadWidget
         options={{ sources: ["local"], multiple: false, maxFiles: 5 }}
-        uploadPreset="s9jrkiie"
+        uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}
         onUpload={(result, widget) => {
           if (result.event !== "success") return;
           // type assertion, to include a property that we know exists but does show up for typescript

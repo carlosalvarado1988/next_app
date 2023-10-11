@@ -39,4 +39,3 @@ next-env.d.ts
 # email app generated
 .react-email/
 
-.next.config.js
