@@ -736,8 +736,30 @@ roboto
 - setup you cloudinary cloud name for production (need a separate storage for dev and prod)
 - setup another google client for oauth and resend api in prod.
 
-#### Setup hosted Mysql database with planetScale service.
+#### Setup hosted Mysql database with planetScale service. (learnings)
 
 - reference: https://github.com/vercel/next.js/tree/canary/examples/with-mysql
 - setup a hobby tier account to create a mysql datase: https://planetscale.com/blog/planetscale-vercel-integration
+- planetScale account: https://app.planetscale.com/c-alvarado
 - added an integration plugin in vercel:
+- To swith to the cloud-hosted database, the command `npm prisma migrate dev` runs and create a new shadow database under the hood to detect schema drifts and run migrations. Cloud based database prevent sql scripts to create databases for security reasons. because of this you have to manually create the shadow database into mysql. see docs: https://www.prisma.io/docs/concepts/components/prisma-migrate/shadow-database#cloud-hosted-shadow-databases-must-be-created-manually
+
+  - To hack this limitation, you can reference your shadow db url to your local db, as the `npx prisma migrate dev` only run this as a pre-check to ensure the schema is good to run in the final destination.
+
+- Found another limitation: PlanetScale MySQL db does not support Foreign key constraint.
+- They enforce a design patter in the db that enforces referential integrity at the application level instead of at the database level, see docs: https://planetscale.com/docs/learn/operating-without-foreign-key-constraints
+
+  - because of this finding and the potential client uses aws, I decided to implement a aws mysql instance to practice as
+
+- deleting PlanetScale MySql database: https://app.planetscale.com/c-alvarado/next_app/settings
+  - note: database was deleted
+
+##### Setup hosted Mysql database with AWS.
+
+- AWS allows foreign key constaint
+- see docs: https://docs.aws.amazon.com/dms/latest/sql-server-to-aurora-mysql-migration-playbook/chap-sql-server-aurora-mysql.sql.constraints.html
+- after this finding, you better implement mysql db with AWS.
+- the HOST is displayed as endpoint in AWS.
+- To test the connection you use some CLI or GUI first - MySQL workbench
+  - the default privacy group prevents to connect, so you need to add a new rule to allow ALL inbound traffic from Ipv4 0.0.0.0/0 (ALL INBOUND ALLOWED)
+- Note: with this AWS instance, the separate shadow_db is no longer needed.
