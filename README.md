@@ -698,3 +698,13 @@ roboto
   description: "a page to test nextjs capabilities",
 };`
 - for dynamic data, like product/id, where the content is dynamic to the data fetched, we also generate dynamic metadata
+
+## Lazy loading
+
+- you can laod heavy components using the dynamic method from rest.
+- in the example, we hide a component with a state variable, interestingly, the component is preloaded for the static import: `import HeavyComponent from "./components/HeavyComponent";`
+- when we use the dynamic import, we allow next to bring that data only when is going to be rendered.
+- this add some extra bites of logic, so only makes sense to use it when the size of the heavy component is really large: `const HeavyComponent = dynamic(() => import("./components/HeavyComponent"));`
+- you can also add a second parameter to the dynamic function: `, { loading: () => <p>loading</p>, ssr: false, });`
+- you can also lazy load npm packages or libraries: eg lodash, wich is very heavy
+-

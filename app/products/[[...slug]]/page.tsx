@@ -3,7 +3,7 @@ import Link from "next/link";
 import { getServerSession } from "next-auth";
 
 import { authOptions } from "../../api/auth/[...nextauth]/route";
-import ProductCard from "../../componenets/ProductCard";
+import ProductCard from "../../components/ProductCard";
 import { Metadata } from "next";
 
 interface Props {
