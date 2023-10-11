@@ -708,3 +708,12 @@ roboto
 - you can also add a second parameter to the dynamic function: `, { loading: () => <p>loading</p>, ssr: false, });`
 - you can also lazy load npm packages or libraries: eg lodash, wich is very heavy
 -
+
+#### Summary
+
+- The Image component in Next.js automatically optimizes and serves images in various formats and sizes, reducing loading times and bandwidth usage for improved site performance.
+- The Link component enables client-side navigation between pages within our Next.js application, eliminating full page reloads and creating a smoother user experience.
+- The Script component allows you to load and manage external scripts efficiently.
+- Next.js automatically optimizes our fonts and removes external network requests for improved privacy and performance.
+- To make our applications search engine friendly, we can export a metadata object from our pages and layouts. Metadata exported from a page overwrite metadata defined in the layouts.
+- Lazy loading helps us improve the initial loading performance of a page by reducing the amount of JavaScript needed to render the page. With lazy loading we can defer loading of client components and external libraries until when they’re needed.

@@ -1,8 +1,8 @@
+import prisma from "@/prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import schema from "../schema";
-import prisma from "@/prisma/client";
 
-import { reportError, findUserById } from "../../utils";
+import { findUserById, reportError } from "../../utils";
 
 interface GetProps {
   params: { id: string };
@@ -11,7 +11,7 @@ interface GetProps {
 export async function GET(request: NextRequest, { params }: GetProps) {
   try {
     // fetch data from db\
-    const user = await findUserById(parseInt(params.id));
+    const user = await findUserById(params.id);
     if (!user) return reportError("User not found", 404);
     return NextResponse.json(user);
   } catch (e: unknown) {
@@ -37,7 +37,7 @@ export async function PUT(request: NextRequest, { params }: PutProps) {
       );
 
     // validate user exists in db
-    const user = await findUserById(parseInt(params.id));
+    const user = await findUserById(params.id);
     if (!user) return reportError("User not found", 404);
 
     // Update the user in db
@@ -59,7 +59,7 @@ export async function PUT(request: NextRequest, { params }: PutProps) {
 export async function DELETE(request: NextRequest, { params }: GetProps) {
   try {
     // fetch user from db
-    const user = await findUserById(parseInt(params.id));
+    const user = await findUserById(params.id);
     if (!user) return reportError("User not found", 404);
 
     // delete user from db
