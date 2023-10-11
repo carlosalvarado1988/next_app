@@ -717,3 +717,27 @@ roboto
 - Next.js automatically optimizes our fonts and removes external network requests for improved privacy and performance.
 - To make our applications search engine friendly, we can export a metadata object from our pages and layouts. Metadata exported from a page overwrite metadata defined in the layouts.
 - Lazy loading helps us improve the initial loading performance of a page by reducing the amount of JavaScript needed to render the page. With lazy loading we can defer loading of client components and external libraries until when they’re needed.
+
+# Preparing for production
+
+- upload your code to a github repo
+- setup an account with any host/cloud service: vercel, AWS, GCP, Azure, Heroku. this demo went to Vercel.
+- link your github repo
+- migrate your local db to a hosted/cloud db.
+
+  - some services are:
+    - Digital Ocean
+    - Google Cloud platform
+    - MS Azure
+    - Hostinger
+    - GoDaddy
+      - Comparison: https://gist.github.com/bmaupin/0ce79806467804fdbbf8761970511b8c
+
+- setup you cloudinary cloud name for production (need a separate storage for dev and prod)
+- setup another google client for oauth and resend api in prod.
+
+#### Setup hosted Mysql database with planetScale service.
+
+- reference: https://github.com/vercel/next.js/tree/canary/examples/with-mysql
+- setup a hobby tier account to create a mysql datase: https://planetscale.com/blog/planetscale-vercel-integration
+- added an integration plugin in vercel:
