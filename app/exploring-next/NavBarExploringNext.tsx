@@ -7,7 +7,7 @@ export const NavBarExploringNext = () => {
   const { status, data: session } = useSession();
 
   return (
-    <nav className="flex bg-slate-200 p-5 space-x-3">
+    <nav className="flex bg-slate-200 p-5 space-x-6">
       <Link href={"/exploring-next/"} className="mr-5">
         NextJS
       </Link>
