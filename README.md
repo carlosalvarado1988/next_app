@@ -106,11 +106,15 @@ if we hace pages or components with static data, to be render once only, payload
 
 testing static pages:
 you need to build the app for production, and because next is using the default cache, it renders statically. avoiding to run a new fetch to the network. unless we add the param to the fetch built in module: { cache: "no-store" }
+![Alt text](readme_imgs/dynamic-static-ssr-pages.png)
 
 > npm run build // to create a new build
+
 > npm run start // to run the prod build
 
-when you build, you can identify which page is static or dynamic
+when you build, you c
+lamda is dynamic
+circle is static
 ![Alt text](readme_imgs/image-5.png)
 ![Alt text](readme_imgs/image-6.png)
 
@@ -410,6 +414,9 @@ this simple integration brings to life the upload component:
 - Since Next updated its way to handle routes, we ensure we follow the new Route Handlers way: https://next-auth.js.org/configuration/initialization#route-handlers-app
 
 - We need to generate a NEXTAUTH_SECRET, using openssl: openssl rand -base64 32
+- Ensure NEXTAUTH_SECRET is added to env variables in the hosting.
+- Ensure NEXTAUTH_SECRET is added .env for local dev.
+- it doesn't need any prefix or sufix, keep it as: NEXTAUTH_SECRET
 
 #### Configure Google Provider for Next Auth
 
@@ -425,6 +432,26 @@ this simple integration brings to life the upload component:
 - the redirect url is grabbed from the next auth for google - https://next-auth.js.org/providers/google
   - For production: https://{YOUR_DOMAIN}/api/auth/callback/google
   - For development: http://localhost:3000/api/auth/callback/google
+
+#### Configure Facebook Provider for Next Auth
+
+- docs: https://next-auth.js.org/providers/facebook
+- creating an app within facebook for developers: https://developers.facebook.com/apps/819546503241366/dashboard/
+
+  - created next_app_demo for production
+  - created next_app_test for dev
+
+- as facebook has its built in oauth application, see docs: https://next-auth.js.org/configuration/providers/oauth
+- callback url:
+  - https://next-app-ten-azure.vercel.app/api/auth/callback/facebook (prod)
+  - http://localhost:3000/api/auth/callback/facebook (dev)
+
+#### Configure GitHub Provider for Next Auth
+
+- NOTE: only allows one callback url - meaning it will only work for prod in this demo
+- docs: https://next-auth.js.org/providers/github
+- creating an OAuth app within github: https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/creating-an-oauth-app
+  - go to developer settings
 
 #### Authentication sessions
 
