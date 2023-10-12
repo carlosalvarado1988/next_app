@@ -38,6 +38,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 - video: https://www.youtube.com/watch?v=ZVnjOPwW4ZA
 - tuto repo: https://members.codewithmosh.com/courses/enrolled/240431
+- course link: https://members.codewithmosh.com/courses/mastering-next-js-13-with-typescript-1/lectures/49144416
 
 When creating the app, selected the following options
 
@@ -451,7 +452,7 @@ this simple integration brings to life the upload component:
 - NOTE: only allows one callback url - meaning it will only work for prod in this demo
 - docs: https://next-auth.js.org/providers/github
 - creating an OAuth app within github: https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/creating-an-oauth-app
-  - go to developer settings
+  - go to developer settings and create the oauth app.
 
 #### Authentication sessions
 
