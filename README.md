@@ -410,6 +410,9 @@ this simple integration brings to life the upload component:
 - Since Next updated its way to handle routes, we ensure we follow the new Route Handlers way: https://next-auth.js.org/configuration/initialization#route-handlers-app
 
 - We need to generate a NEXTAUTH_SECRET, using openssl: openssl rand -base64 32
+- Ensure NEXTAUTH_SECRET is added to env variables in the hosting.
+- Ensure NEXTAUTH_SECRET is added .env for local dev.
+- it doesn't need any prefix or sufix, keep it as: NEXTAUTH_SECRET
 
 #### Configure Google Provider for Next Auth
 
