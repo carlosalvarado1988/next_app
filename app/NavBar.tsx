@@ -3,7 +3,7 @@ import React from "react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 
-const NavBar = () => {
+export const NavBar = () => {
   const { status, data: session } = useSession();
 
   return (
@@ -31,5 +31,3 @@ const NavBar = () => {
     </header>
   );
 };
-
-export default NavBar;
