@@ -2,7 +2,7 @@ import Script from "next/script";
 import React from "react";
 
 export const GoogleAnalyticsScript = () => (
-  <div>
+  <>
     <Script
       async
       src="https://www.googletagmanager.com/gtag/js?id=G-HHC0NZSLNK"
@@ -13,5 +13,5 @@ export const GoogleAnalyticsScript = () => (
         gtag('js', new Date());
         gtag('config', 'G-HHC0NZSLNK');`}
     </Script>
-  </div>
+  </>
 );
