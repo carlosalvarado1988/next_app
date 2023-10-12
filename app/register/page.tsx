@@ -1,4 +1,5 @@
 "use client";
+import { EventType } from "next-auth";
 import React, { useState } from "react";
 
 const Register = () => {
@@ -11,19 +12,18 @@ const Register = () => {
 
   const [loading, setLoading] = useState(false);
 
-  const handleRegister = async () => {
+  const handleRegister = async (event: React.FormEvent<HTMLButtonElement>) => {
+    event.preventDefault();
     setLoading(true);
-
-    const response: any = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/register/`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        method: "POST",
-        body: JSON.stringify({ name, email, password }),
-      }
-    );
+    const endpoint = `${process.env.NEXT_PUBLIC_BASE_URL}/api/register/`;
+    console.log("endpoint", endpoint);
+    const response: any = await fetch(endpoint, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+      body: JSON.stringify({ name, email, password }),
+    });
 
     setLoading(false);
     if (response?.status == 400) return setError(true);
@@ -66,7 +66,7 @@ const Register = () => {
         <button
           className="btn btn-primary mb-3"
           onClick={handleRegister}
-          disabled={!name || !email}
+          disabled={!name || !email || !password}
         >
           Register
         </button>
