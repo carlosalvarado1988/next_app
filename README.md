@@ -402,3 +402,364 @@ cmplete the setup for next env: https://next.cloudinary.dev/
 
 this simple integration brings to life the upload component:
 ![Alt text](readme_imgs/cloudinary-upload.png)
+
+# Authentication with Next Auth
+
+- installing the npm package: https://next-auth.js.org/ (note: will turn into auth.js)
+
+- Since Next updated its way to handle routes, we ensure we follow the new Route Handlers way: https://next-auth.js.org/configuration/initialization#route-handlers-app
+
+- We need to generate a NEXTAUTH_SECRET, using openssl: openssl rand -base64 32
+
+#### Configure Google Provider for Next Auth
+
+- docs: https://next-auth.js.org/providers/google
+
+  - using ekos sv project: https://console.cloud.google.com/apis/credentials/consent?authuser=4&project=next-app-401523&supportedpurview=project
+
+  - in the consent screen, we choose external type.
+  - we setup the Oauth consent screen, the scopes, test users in the wizard
+    - in the scopes, added .../auth/userinfo.email and .../auth/userinfo.profile
+
+- the authorized origin is localhost
+- the redirect url is grabbed from the next auth for google - https://next-auth.js.org/providers/google
+  - For production: https://{YOUR_DOMAIN}/api/auth/callback/google
+  - For development: http://localhost:3000/api/auth/callback/google
+
+#### Authentication sessions
+
+- sessions in nextjs are created as cookies, as JSON web tokens.
+- for testing purposes, creted the GET token endpoint to better understand the session in NextJS
+
+created this file: /auth/token/route.tsx
+import { getToken } from "next-auth/jwt";
+import { NextRequest, NextResponse } from "next/server";
+
+export async function GET(request: NextRequest) {
+const token = await getToken({ req: request });
+return NextResponse.json(token);
+}
+
+- to check the token: http://localhost:3000/api/auth/token
+
+#### Accessing sessions on the client
+
+- in the layout.tsx file, we add the sessionProvider component from 'next-auth/react'
+- we need to create this as a wrapper provider, with the 'use client' because it will interact client rendering and events.
+- with this wrapper, now we have access to logged in data from the google provider, using the hook: useSession(). for instance in the NavBar component
+- wherever we use the useSession() hook, we need to turn the component to a client-component (example in NavBar)
+- but we can also access the session data from the server.
+
+#### Accessing sessions on the server
+
+- to access data in the server we use getServerSession() from "next-auth", we use page.tsx in the root directory, meaning home component file for this example
+- this functions uses the auth options of the provider, the same way as the nextAuth handler
+
+#### Logout session
+
+the logout session is already handled by next-auth, we <Link> to /api/auth/signout and it will take us to the logout provider page
+we can customize it on the provider page
+
+#### Protecting routes
+
+we use a middleware to inspect every request and determine the next step.
+
+- nextjs is looking for a middleware.ts file in the root directory to execute the logic
+- this is an example of how to redirect a call.
+  export function middleware(request: NextRequest) {
+  return NextResponse.redirect(new URL("new-page-redirected", request.url));
+  }
+
+and this object is to determine the matches:
+
+export const config = {
+// \*: zero or more
+// +: one or more
+// ?: zero or more
+matcher: ["/users/:id\*"],
+};
+
+documentation: https://next-auth.js.org/tutorials/securing-pages-and-api-routes
+
+#### Storing user's data with database adapters
+
+documentation: https://next-auth.js.org/adapters --> https://authjs.dev/reference/adapter/prisma
+
+- we install the npm package: npm i @next-auth/prisma-adapter
+- initialize the adapter in NextAuth route.ts
+
+##### Replacing prisma modules
+
+as we are going to store User data from the provider, the prisma adapter dictates the model structure.
+in order to remove our own models, we need to run migrations to clear out the db as well, in preparation of the changes.
+
+> npx prisma migrate dev
+
+now we bring the new models from: https://authjs.dev/reference/adapter/prisma, then again run migrations
+
+after this change, the session strategy becomes to store in the database.
+and by default, the session of NextJS is JWT, JSON web token, so this generates a conflict
+
+at the time of this implementation, we can not use database session with social logins or oauth provider.
+so we dictate the session strategy in the adapter, we set it as jwt to be compatible. (meaning that the token will still be saved in the cookies of the browser)
+
+session: {
+strategy: "jwt",
+},
+
+##### allowing user / pass credential provider with prisma
+
+- we configure as the provider
+- we install bcrypt to compare passwords and its types
+  > npm i bcrypt
+  > npm i --save-dev @types/bcrypt
+- we need to add a password field optional to the User model, to play and store password. (this wont save for goolge provider)
+  > password String?
+- run migration with prisma
+  > npx prisma migrate dev
+
+CredentialsProvider({
+name: "Credentials",
+credentials: {
+email: { label: "Email", type: "email", placeholder: "Email" },
+password: {
+label: "Password",
+type: "password",
+placeholder: "Password",
+},
+},
+async authorize(credentials, \_) {
+if (!credentials?.email || !credentials?.password) {
+return null;
+}
+const user = await prisma.user.findUnique({
+where: { email: credentials?.email },
+});
+if (!user) return null;
+const passwordsMatched = await bcrypt.compare(
+credentials.password,
+user.hashedPassword!
+);
+return passwordsMatched ? user : null;
+},
+}),
+
+##### Registering new Users for CredentialsProvider
+
+- we create a route file in: app/api/register/route.ts
+- this file is accessible in http://localhost:3000/register
+- we send our new user data to our db using prisma client
+- this users list in the db, is used by the CredentialsProvider to validate login for users
+- testing user: credentials@test.com / torsept2023
+
+##### Custom login and logout pages, Events in nextjs,
+
+- follow this documentation for nextjs: https://next-auth.js.org/configuration/pages
+- Events: NextAuth.js provides a number of events (eg signIn, signOut, createUser, etc) that are useful for auditing or handling any other side effects: https://next-auth.js.org/configuration/events
+- We can provide handlers for these events as part of our NextAuth.js setup: https://next-auth.js.org/configuration/options#events
+
+#### Terms
+
+- Authentication
+- sessionDatabase
+- adapterJSON Web Token (JWT)
+- Middleware
+- Next Auth
+
+#### Summary
+
+- NextAuth.js is a popular authentication library for Next.js applications. It simples the implementation of secure user authentication and authorization. It supports various authentication providers (eg Google, Twitter, GitHub, Credentials, etc).
+- When a user signs in, Next Auth creates an authentication session for that user. By default, authentication sessions are represented using JSON Web Tokens (JWTs). But sessions can also be stored in a database.
+- To access the authentication session on the client, we have to wrap our application with SessionProvider. This component uses React Context to pass the authentication session down the component tree. Since React Context is only available in client components, we have to wrap SessionProvider with a client component.
+- Using middleware we can execute code before a request is completed. That’s an opportunity for us to redirect the user to the login page if they try to access a private part of our application without having a session. Next Auth includes built-in middleware for this purpose.
+- Next Auth comes with many database adapters for storing user and session data.
+
+  ![Alt text](readme_imgs/setup-next-authjs.png)
+  ![Alt text](readme_imgs/protecting-routes-and-accessing-session.png)
+
+# Sending Emails
+
+- we use react.email -> npm i react-email @react-email/components
+- we add a npm command to see an email preview: "preview-email": "email dev -p 3030" (we specify a different port that our server)
+- this preview command will generate a full application to run the web generator locally, so we add it to gitignore `.react-email/`
+- we create a email directory in the root of our project to collect all components
+- we can visit the local app preview at by running the command `npm run preview-email`: http://localhost:3030
+- we can send the test email without configuring any serve, just right out the box with NextJS
+
+#### Stylimng email templates
+
+- we can do it with css or tailwind
+- to make it scalable with css, we create style objects outside the component
+- we can also use tailwind properties with className, by wrapping the component with the <Tailwind> element that comes with the @react-email/components
+
+#### Sending emails
+
+- in the docs: https://react.email/docs/integrations/resend
+- you want to look for the integrationw with resend (the same creators or react.email)
+- you need to create an account with resend, they have up to 3k email free per month for testing
+- you want to generate a new api key and save it in the .env file
+- you install the npm package:
+- now you can configure a module to trigger sending emails, for testing purposes, I have set up an enpoint to trigger it. another example can be an email after registering your user
+- testing domain tied to account email c.alvarado.. , once a custom domain is setup, then any email can recieve
+
+# Optimizations
+
+### Handling images
+
+- always prefer to use the <Image> component from 'next/image' that automatically rezises images for devices.
+- for local images (stored in public folder), nextjs handles the rendering with light overhead.
+- for remote images, we need to configure the `remotePatterns`, see docs: https://nextjs.org/docs/pages/building-your-application/optimizing/images#remote-images
+- this file should be the more explicit possible for security concerns:
+
+  > module.exports = {
+  >
+  > images: {
+  >
+  > remotePatterns: [
+  >
+  > > {
+  >
+  > > protocol: 'https',
+  >
+  > > hostname: 's3.amazonaws.com',
+  >
+  > > port: '',
+  >
+  > > pathname: '/my-bucket/\*\*',
+  >
+  > > },
+  >
+  > > ],
+  >
+  > > },
+  >
+  > > }
+
+- you can also style it with tailwind,
+
+  > div className="relative h-screen"
+
+  > Image fill className="object-cover" sizes="100vw"
+
+- note the parent div with relative position, this is because we set a fill position for the image itself. the h-screen property means it will take height: 100% of the screen
+
+# Using 3rd party scripts - Google Analytics - where to put them?
+
+if you need it at a single page, use the page.ts file.
+if you need them in a group of pages, use the layout.ts file
+if you need it for all pages, use the layout at the root project
+
+to setup the google analytics, see docs: https://blog.hootsuite.com/how-to-set-up-google-analytics/
+
+# Implementing Fonts
+
+you use the next/font libary
+
+> import { Inter, Roboto } from "next/font/google";
+
+then you create an object with params
+
+> const roboto = Roboto({
+
+> subsets: ["latin"],
+
+> weight: ["400", "500"],
+
+> });
+
+and lastly we apply the className property.
+roboto
+
+>    <body className={roboto.className}>
+
+#### local fonts (other than google)
+
+- you use `import localFont from "next/font/local";`
+- for the demo, poppins font was added to public/fonts/ folder
+- in the object config, you can configure a css variable to refer in styles: `variable: "--font-poppins",`
+
+###### Configure local font with tailwind
+
+- you use the variable to refer in the tailwind config file.
+- first, you change the className reference from `className={localFontPoppins.className}` to `className={localFontPoppins.variable}` Note: with this you will see the reference in the DOM inspector of the dev tools of chorme
+- you add the tailwind.config.ts file, adding to the theme schema:
+  `extend: { fontFamily: {
+  poppins: "var(--font-poppins",
+}}`
+- with this config, the --font-poppins var becomes available to be use as a tailwind style in elements, or into the global css to dictate style in specific elements as well via its symantic
+- adding to an elemnt: `<h1 className="font-bold text-3xl font-poppins">`
+- adding to global css: `h1 { @apply font-extrabold text-2xl mb-3 font-poppins; }`
+
+## Search Engine Optimization
+
+- you can insert metadata at every page level.
+  `export const metadata: Metadata = {
+  title: "Products playground page",
+  description: "a page to test nextjs capabilities",
+};`
+- for dynamic data, like product/id, where the content is dynamic to the data fetched, we also generate dynamic metadata
+
+## Lazy loading
+
+- you can laod heavy components using the dynamic method from rest.
+- in the example, we hide a component with a state variable, interestingly, the component is preloaded for the static import: `import HeavyComponent from "./components/HeavyComponent";`
+- when we use the dynamic import, we allow next to bring that data only when is going to be rendered.
+- this add some extra bites of logic, so only makes sense to use it when the size of the heavy component is really large: `const HeavyComponent = dynamic(() => import("./components/HeavyComponent"));`
+- you can also add a second parameter to the dynamic function: `, { loading: () => <p>loading</p>, ssr: false, });`
+- you can also lazy load npm packages or libraries: eg lodash, wich is very heavy
+-
+
+#### Summary
+
+- The Image component in Next.js automatically optimizes and serves images in various formats and sizes, reducing loading times and bandwidth usage for improved site performance.
+- The Link component enables client-side navigation between pages within our Next.js application, eliminating full page reloads and creating a smoother user experience.
+- The Script component allows you to load and manage external scripts efficiently.
+- Next.js automatically optimizes our fonts and removes external network requests for improved privacy and performance.
+- To make our applications search engine friendly, we can export a metadata object from our pages and layouts. Metadata exported from a page overwrite metadata defined in the layouts.
+- Lazy loading helps us improve the initial loading performance of a page by reducing the amount of JavaScript needed to render the page. With lazy loading we can defer loading of client components and external libraries until when they’re needed.
+
+# Preparing for production
+
+- upload your code to a github repo
+- setup an account with any host/cloud service: vercel, AWS, GCP, Azure, Heroku. this demo went to Vercel.
+- link your github repo
+- migrate your local db to a hosted/cloud db.
+
+  - some services are:
+    - Digital Ocean
+    - Google Cloud platform
+    - MS Azure
+    - Hostinger
+    - GoDaddy
+      - Comparison: https://gist.github.com/bmaupin/0ce79806467804fdbbf8761970511b8c
+
+- setup you cloudinary cloud name for production (need a separate storage for dev and prod)
+- setup another google client for oauth and resend api in prod.
+
+#### Setup hosted Mysql database with planetScale service. (learnings)
+
+- reference: https://github.com/vercel/next.js/tree/canary/examples/with-mysql
+- setup a hobby tier account to create a mysql datase: https://planetscale.com/blog/planetscale-vercel-integration
+- planetScale account: https://app.planetscale.com/c-alvarado
+- added an integration plugin in vercel:
+- To swith to the cloud-hosted database, the command `npm prisma migrate dev` runs and create a new shadow database under the hood to detect schema drifts and run migrations. Cloud based database prevent sql scripts to create databases for security reasons. because of this you have to manually create the shadow database into mysql. see docs: https://www.prisma.io/docs/concepts/components/prisma-migrate/shadow-database#cloud-hosted-shadow-databases-must-be-created-manually
+
+  - To hack this limitation, you can reference your shadow db url to your local db, as the `npx prisma migrate dev` only run this as a pre-check to ensure the schema is good to run in the final destination.
+
+- Found another limitation: PlanetScale MySQL db does not support Foreign key constraint.
+- They enforce a design patter in the db that enforces referential integrity at the application level instead of at the database level, see docs: https://planetscale.com/docs/learn/operating-without-foreign-key-constraints
+
+  - because of this finding and the potential client uses aws, I decided to implement a aws mysql instance to practice as
+
+- deleting PlanetScale MySql database: https://app.planetscale.com/c-alvarado/next_app/settings
+  - note: database was deleted
+
+##### Setup hosted Mysql database with AWS.
+
+- AWS allows foreign key constaint
+- see docs: https://docs.aws.amazon.com/dms/latest/sql-server-to-aurora-mysql-migration-playbook/chap-sql-server-aurora-mysql.sql.constraints.html
+- after this finding, you better implement mysql db with AWS.
+- the HOST is displayed as endpoint in AWS.
+- To test the connection you use some CLI or GUI first - MySQL workbench
+  - the default privacy group prevents to connect, so you need to add a new rule to allow ALL inbound traffic from Ipv4 0.0.0.0/0 (ALL INBOUND ALLOWED)
+- Note: with this AWS instance, the separate shadow_db is no longer needed.
