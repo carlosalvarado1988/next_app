@@ -10,13 +10,25 @@ const resend = new Resend(process.env.NEXT_PUBLIC_RESEND_API_KEY);
 export async function GET() {
   const session = await getServerSession(authOptions);
   const name = session ? session.user!.name : "new user";
-  // const email = session ? session.user!.email : "c.alvarado_@hotmail.com";
+  const email = session ? session.user!.email : "c.alvarado_@hotmail.com";
+  const mockUser = {
+    id: "01",
+    name,
+    email,
+  };
 
+  // testing domain tied to account email c.alvarado..
   await resend.emails.send({
-    from: "onboarding@resend.dev", // testing domain tied to account email c.alvarado..
+    from: "onboarding@resend.dev",
     to: "c.alvarado_@hotmail.com",
     subject: "Welcome abroad!",
-    react: <WelcomeTemplate name={name!} />,
+    react: (
+      <WelcomeTemplate
+        id={mockUser.id}
+        name={mockUser.name!}
+        email={mockUser.email!}
+      />
+    ),
   });
   return NextResponse.json({});
 }
