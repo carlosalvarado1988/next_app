@@ -386,13 +386,13 @@ Creting and running a migration
 #### Setup cloudinary
 
 install the npm package: https://console.cloudinary.com/console/c-7a6c04749c39512e5174cf535ef869/getting-started
-cmplete the setup for next env: https://next.cloudinary.dev/
+complete the setup for next env: https://next.cloudinary.dev/
 
 - To add the upload widget, we need to get the upload preset key from settings of our account.
   https://console.cloudinary.com/settings/c-7a6c04749c39512e5174cf535ef869/upload
   make sure to add the upload preset.
   - we create an unsign preset for this project
-    <CldUploadWidget uploadPreset="s9jrkiie">
+    <CldUploadWidget process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME">
     {({ open }) => (
     <button className="btn btn-primary" onClick={() => open()}>
     Upload
@@ -421,7 +421,7 @@ this simple integration brings to life the upload component:
   - we setup the Oauth consent screen, the scopes, test users in the wizard
     - in the scopes, added .../auth/userinfo.email and .../auth/userinfo.profile
 
-- the authorized origin is localhost
+- the authorized origin add localhost:3000 for development, make sure to add hosting domain as well.
 - the redirect url is grabbed from the next auth for google - https://next-auth.js.org/providers/google
   - For production: https://{YOUR_DOMAIN}/api/auth/callback/google
   - For development: http://localhost:3000/api/auth/callback/google
