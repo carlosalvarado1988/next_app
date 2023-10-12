@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/inline-script-id */
 import type { Metadata } from "next";
 import { Inter, Roboto } from "next/font/google";
 import localFont from "next/font/local";
@@ -35,7 +34,7 @@ export default function RootLayout({
       <body className={localFontPoppins.variable}>
         <AuthProvider>
           <NavBar />
-          <main className="p-5">{children}</main>
+          <main>{children}</main>
         </AuthProvider>
       </body>
     </html>

@@ -827,3 +827,8 @@ roboto
 - To test the connection you use some CLI or GUI first - MySQL workbench
   - the default privacy group prevents to connect, so you need to add a new rule to allow ALL inbound traffic from Ipv4 0.0.0.0/0 (ALL INBOUND ALLOWED)
 - Note: with this AWS instance, the separate shadow_db is no longer needed.
+
+# Building an issue tracker
+
+reference repo: https://github.com/mosh-hamedani/issue-tracker
+video course: https://members.codewithmosh.com/courses/nextjs-projects-issue-tracker/lectures/49685068
