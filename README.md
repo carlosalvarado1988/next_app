@@ -677,7 +677,43 @@ if you need it at a single page, use the page.ts file.
 if you need them in a group of pages, use the layout.ts file
 if you need it for all pages, use the layout at the root project
 
-to setup the google analytics, see docs: https://blog.hootsuite.com/how-to-set-up-google-analytics/
+- to setup the google analytics, see docs:
+
+  - https://blog.hootsuite.com/how-to-set-up-google-analytics/
+  - https://www.youtube.com/watch?v=BA_mEEUbqAA&t=137s
+
+- added a new property (for new project) and generated new tag
+- to implement the tag code in the pages, you follow the script optimization: https://nextjs.org/docs/pages/building-your-application/optimizing/scripts
+- Because we want this script available for all pages, we target the layout.tsx at the root level
+
+##### Tips:
+
+- To avoid errors of inline scripts in the <Script> element we use back-tilds to pass all content as a text child and so the element will interprets the string as javascript content
+
+  > <Script>{`long google tag script passed as string and compiled as JS after`}</Script>
+
+- <Script> element has strategy property:
+
+#### afterInteractive:
+
+- the default value
+- script is loaded after our page becomes interactive
+- examples are tag managers or analytics
+
+#### beforeInteractive:
+
+- known as Hydration, it loads before nextjs server injects any client side code to the pages.
+  - Hydration: server components are rendered on the server and returned to the client. NextJS will then render and inject client side code on our pages.
+  - should only use this strategy for critial code, examples are bot detectors or cookie consent managers.
+
+#### lazyOnLoad:
+
+- the script is loaded after all the resources on the page have been fetched
+- usfull for background or low priority scripts that dont need to be be loaded early on.
+
+##### Tip:
+
+- to avoid layout to get polluted, we extract into its own component <GoogleAnalyticsScript>
 
 # Implementing Fonts
 
