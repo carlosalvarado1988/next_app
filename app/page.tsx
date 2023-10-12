@@ -21,7 +21,7 @@ export default function Home() {
   return (
     <div>
       <h1 className="font-bold text-3xl">Hello World</h1>
-      <>
+      <div className="flex mb-3">
         <button
           className="btn btn-secondary mb-3"
           onClick={() => setShow(!show)}
@@ -29,7 +29,7 @@ export default function Home() {
           Lazy load Heavy Component
         </button>
         {show && <HeavyComponent />}
-      </>
+      </div>
       <>
         <button
           className="btn btn-secondary mb-3"
