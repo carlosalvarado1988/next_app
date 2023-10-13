@@ -842,3 +842,19 @@ video course: https://members.codewithmosh.com/courses/nextjs-projects-issue-tra
 - when building ui, at the layout level you can insert the ThemePanel element to play with the theme options.
 - from it you can copy the configuration and set the `     <Theme appearance="light" accentColor="grass" radius="small">` at the layout level.
 - Now how to configure our local font ? https://www.radix-ui.com/themes/docs/theme/typography
+
+# adding a MarkDown editor
+
+- SimpleMDE: https://www.npmjs.com/package/react-simplemde-editor
+
+# adding a form submission lib
+
+- react hook form: https://www.npmjs.com/package/react-hook-form
+- import useForm, this one facilitates to collect all data from a form, to avoid using multiple useState, just binding the `{...register("title")}` to each input element.
+- for complex elements, a Controller element should wrap it:
+  ```<Controller
+          name="description"
+          control={control}
+          render={(field) => <SimpleMDE placeholder="Description" {...field} />}
+        />
+  ```
