@@ -833,7 +833,7 @@ roboto
 reference repo: https://github.com/mosh-hamedani/issue-tracker
 video course: https://members.codewithmosh.com/courses/nextjs-projects-issue-tracker/lectures/49685068
 
-# Ading Radix UI - radix-ui
+## Ading Radix UI - radix-ui
 
 - see docs: https://www.radix-ui.com/themes/docs/overview/getting-started
 - similar to DaysiUI, a boostrap library of elements
@@ -843,11 +843,11 @@ video course: https://members.codewithmosh.com/courses/nextjs-projects-issue-tra
 - from it you can copy the configuration and set the `     <Theme appearance="light" accentColor="grass" radius="small">` at the layout level.
 - Now how to configure our local font ? https://www.radix-ui.com/themes/docs/theme/typography
 
-# adding a MarkDown editor
+## adding a MarkDown editor
 
 - SimpleMDE: https://www.npmjs.com/package/react-simplemde-editor
 
-# adding a form submission lib
+## adding a form submission lib
 
 - react hook form: https://www.npmjs.com/package/react-hook-form
 - import useForm, this one facilitates to collect all data from a form, to avoid using multiple useState, just binding the `{...register("title")}` to each input element.
@@ -858,3 +858,7 @@ video course: https://members.codewithmosh.com/courses/nextjs-projects-issue-tra
           render={(field) => <SimpleMDE placeholder="Description" {...field} />}
         />
   ```
+
+## Adding Axios lib
+
+-
