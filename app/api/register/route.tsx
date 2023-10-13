@@ -5,7 +5,8 @@ import { Resend } from "resend";
 import { z } from "zod";
 import bcrypt from "bcrypt";
 
-import { reportError, findUserByEmail } from "../utils";
+import { findUserByEmail } from "../utils";
+import { reportError } from "../utils/nextResponses";
 
 const schema = z.object({
   name: z.string().min(2),

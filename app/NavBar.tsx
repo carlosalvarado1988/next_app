@@ -1,33 +1,19 @@
-"use client";
 import React from "react";
 import Link from "next/link";
-import { useSession } from "next-auth/react";
+import { FiBookOpen } from "react-icons/fi";
 
 export const NavBar = () => {
-  const { status, data: session } = useSession();
-
   return (
-    <header className="flex bg-slate-200 p-5 space-x-3">
+    <nav className="flex bg-slate-300 p-5 space-x-6">
       <Link href={"/"} className="mr-5">
-        NextJS
+        <FiBookOpen />
       </Link>
-      <Link href={"/users"}>Users</Link>
-      <Link href={"/images-page"}>Images</Link>
-      <Link href={"/upload"}>Upload</Link>
-      <Link href={"/products"}>Products</Link>
-
-      {status === "loading" && <div>...</div>}
-      {status === "authenticated" && (
-        <div>
-          {session.user?.name}
-          <Link href="/api/auth/signout" className="ml-3">
-            Sign out
-          </Link>
-        </div>
-      )}
-      {status === "unauthenticated" && (
-        <Link href={"/api/auth/signin"}>Login</Link>
-      )}
-    </header>
+      <Link href={"/issue-tracker"} className="mr-5">
+        Issue tracker
+      </Link>
+      <Link href={"/exploring-next"} className="mr-5">
+        Playground
+      </Link>
+    </nav>
   );
 };

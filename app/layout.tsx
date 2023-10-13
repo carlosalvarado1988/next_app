@@ -1,18 +1,12 @@
-/* eslint-disable @next/next/inline-script-id */
-import type { Metadata } from "next";
-import { Inter, Roboto } from "next/font/google";
-import localFont from "next/font/local";
-import { NavBar } from "./NavBar";
-import { GoogleAnalyticsScript } from "./GoogleAnalyticsScript";
-import AuthProvider from "./auth/Provider";
+import "@radix-ui/themes/styles.css";
+import "./theme-config.css";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
-
-const roboto = Roboto({
-  subsets: ["latin"],
-  weight: ["400", "500"],
-});
+import type { Metadata } from "next";
+import localFont from "next/font/local";
+import { Theme } from "@radix-ui/themes";
+import { NavBar } from "./NavBar";
+import { GoogleAnalyticsScript } from "./GoogleAnalyticsScript";
 
 const localFontPoppins = localFont({
   src: "../public/fonts/poppins-regular-webfont.woff2",
@@ -30,13 +24,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" data-theme="winter">
+    <html lang="en" className={localFontPoppins.variable}>
       <GoogleAnalyticsScript />
-      <body className={localFontPoppins.variable}>
-        <AuthProvider>
+      <body>
+        <Theme appearance="light" accentColor="grass" radius="small">
           <NavBar />
-          <main className="p-5">{children}</main>
-        </AuthProvider>
+          <main>{children}</main>
+        </Theme>
       </body>
     </html>
   );

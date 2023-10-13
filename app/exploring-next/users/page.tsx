@@ -9,7 +9,7 @@ const UsersPage = ({ searchParams: { sortOrder } }: Props) => {
   return (
     <>
       <h1>Users:</h1>
-      <Link href={"/users/new"} className="btn mb-5">
+      <Link href={"/exploring-next/users/new"} className="btn mb-5">
         New User
       </Link>
       <Suspense fallback={<p>Loading...</p>}>

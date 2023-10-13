@@ -1,5 +1,4 @@
 "use client";
-import { EventType } from "next-auth";
 import React, { useState } from "react";
 
 const Register = () => {
