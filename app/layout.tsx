@@ -1,4 +1,5 @@
 import "@radix-ui/themes/styles.css";
+import "./theme-config.css";
 import "./globals.css";
 
 import type { Metadata } from "next";
@@ -23,10 +24,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" data-theme="winter">
+    <html lang="en" className={localFontPoppins.variable}>
       <GoogleAnalyticsScript />
-      <body className={localFontPoppins.variable}>
-        <Theme>
+      <body>
+        <Theme appearance="light" accentColor="grass" radius="small">
           <NavBar />
           <main>{children}</main>
         </Theme>
