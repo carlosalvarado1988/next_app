@@ -1,9 +1,11 @@
-import type { Metadata } from "next";
+import "@radix-ui/themes/styles.css";
+import "./globals.css";
 
+import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { Theme } from "@radix-ui/themes";
 import { NavBar } from "./NavBar";
 import { GoogleAnalyticsScript } from "./GoogleAnalyticsScript";
-import "./globals.css";
 
 const localFontPoppins = localFont({
   src: "../public/fonts/poppins-regular-webfont.woff2",
@@ -24,8 +26,10 @@ export default function RootLayout({
     <html lang="en" data-theme="winter">
       <GoogleAnalyticsScript />
       <body className={localFontPoppins.variable}>
-        <NavBar />
-        <main>{children}</main>
+        <Theme>
+          <NavBar />
+          <main>{children}</main>
+        </Theme>
       </body>
     </html>
   );

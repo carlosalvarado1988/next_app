@@ -832,3 +832,10 @@ roboto
 
 reference repo: https://github.com/mosh-hamedani/issue-tracker
 video course: https://members.codewithmosh.com/courses/nextjs-projects-issue-tracker/lectures/49685068
+
+# Ading Radix UI - radix-ui
+
+- see docs: https://www.radix-ui.com/themes/docs/overview/getting-started
+- similar to DaysiUI, a boostrap library of elements
+- I use radix-ui theme in this demo
+- you import the lib in the root layout: `import '@radix-ui/themes/styles.css';`

@@ -15,7 +15,7 @@ export default function RootLayout({
   return (
     <div>
       <IssueTrackerNavBar />
-      <main>{children}</main>
+      <main className="p-5">{children}</main>
     </div>
   );
 }
