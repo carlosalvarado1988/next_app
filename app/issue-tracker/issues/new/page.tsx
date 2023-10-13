@@ -9,12 +9,13 @@ const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
   ssr: false,
 });
 import { createIssueSchema } from "@/app/api/utils";
-import { Button, Text, TextField } from "@radix-ui/themes";
+import { Button, TextField } from "@radix-ui/themes";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { CallOutError } from "../../../components/CallOutError";
 import { ErrorInlineMessage } from "../../../components/ErrorInlineMessage";
+import { Spinner } from "../../../components/Spinner";
 
 import "easymde/dist/easymde.min.css";
 
@@ -23,6 +24,7 @@ type issueForm = z.infer<typeof createIssueSchema>;
 const NewIssuePage = () => {
   const router = useRouter();
   const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const {
     register,
     control,
@@ -42,9 +44,11 @@ const NewIssuePage = () => {
         className="space-y-3"
         onSubmit={handleSubmit(async (data) => {
           try {
+            setIsSubmitting(true);
             await axios.post("/api/issues", data);
             router.push("/issue-tracker/issues");
           } catch (error) {
+            setIsSubmitting(false);
             setError("An unexpected error ocurred");
             console.log(error);
           }
@@ -64,7 +68,9 @@ const NewIssuePage = () => {
         />
         <ErrorInlineMessage>{errors.description?.message}</ErrorInlineMessage>
 
-        <Button>Submit New Issue</Button>
+        <Button disabled={isSubmitting}>
+          Submit New Issue {isSubmitting && <Spinner />}
+        </Button>
       </form>
     </div>
   );
