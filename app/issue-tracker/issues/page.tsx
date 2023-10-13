@@ -1,14 +1,21 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
-import { Flex, Text, Button } from "@radix-ui/themes";
+import { Button } from "@radix-ui/themes";
+import { useRouter } from "next/navigation";
 
 const IssuesPage = () => {
+  const router = useRouter();
   return (
-    <Button>
-      <Link href="/issue-tracker/issues/new">New Issue</Link>
-    </Button>
+    <div>
+      <Button
+        onClick={() => {
+          router.push("/issue-tracker/issues/new");
+        }}
+      >
+        New Issue
+      </Button>
+    </div>
   );
 };
 
