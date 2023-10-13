@@ -899,3 +899,39 @@ resolver: zodResolver(createIssueSchema),
 ## Adding Axios lib
 
 - we can have better error responses and structured with axios
+
+## type Record - Elegant type available in Next
+
+Having this logic:
+
+```
+const getStatusObj = (status: string) => {
+if (Status.OPEN === status) return { label: "Open", color: "red" };
+if (Status.IN_PROGRESS === status)
+return { label: "In Progress", color: "violet" };
+if (Status.CLOSED === status) return { label: "Closed", color: "green" };
+return { label: "Unknown", color: "red" };
+};
+```
+
+you can use the Record type for an object that return the matching key
+
+- Record is a type available in next
+- we dictate the types or enums to be compared and returned
+
+```
+const statusMap: Record<Status, badgeStatus> = {
+  OPEN: { label: "Open", color: "red" },
+  IN_PROGRESS: { label: "In Progress", color: "violet" },
+  CLOSED: { label: "Closed", color: "green" },
+};
+```
+
+Having status as the dynamic prop received
+then we can access to the value as `{statusMap[status].color`
+
+## Using React Loading Skeleton lib
+
+- npm i https://www.npmjs.com/package/react-loading-skeleton
+- build empty elements as a table
+- replace any dynamic render with the `<Skeleton />` element
