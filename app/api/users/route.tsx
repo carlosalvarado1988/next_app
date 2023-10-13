@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/prisma/client";
 
 import schema from "./schema";
-import { reportError, findUserByEmail } from "../utils";
+import { findUserByEmail } from "../utils";
+import { reportError } from "../utils/nextResponses";
 
 export async function GET(request: NextRequest) {
   // Note: eveen if not use request: NextRequest, we add it because if not, Nextjs caches the data

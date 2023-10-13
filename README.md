@@ -15,11 +15,11 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 First, run the development server:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+  npm run dev
+  # or
+  yarn dev
+  # or
+  pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
@@ -28,13 +28,13 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-##### Deploy on Vercel
+## Deploy on Vercel
 
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
-# Personal notes:
+# NextJS Playground:
 
 - video: https://www.youtube.com/watch?v=ZVnjOPwW4ZA
 - tuto repo: https://members.codewithmosh.com/courses/enrolled/240431
@@ -53,7 +53,7 @@ When creating the app, selected the following options
 - ✔ Would you like to use App Router? (recommended) Yes
 - ✔ Would you like to customize the default import alias? … No
 
-### Adding new pages
+## Adding new pages
 
 Navigation and new pages structured is built in.
 just adding new folders in the three under app directory, it will load the pages automaticaaly.
@@ -76,7 +76,7 @@ note that server side components limit the interactivity with the user, so we us
 ![Alt text](readme_imgs/image-2.png)
 ![Alt text](readme_imgs/image-3.png)
 
-### Pages router vs New app router
+## Pages router vs New app router
 
 Pages router its deprecated, it does not support server components so you should stop using it
 
@@ -88,7 +88,7 @@ using jsonplaceholder.typicode.com to get random data
 
 to fetch data, whenever possible, we should fetch it from server-side components
 
-### Caching
+## Caching
 
 there are 3 places to get data.
 
@@ -101,7 +101,7 @@ we need to be explicit to disable this in each fetch so for those data that chan
 { cache: no-store},
 or we can add: {next: { revalidate: 10 }} // this would refetch for new data every 10 seconds
 
-### Static and Dynamic Rendering
+## Static and Dynamic Rendering
 
 if we hace pages or components with static data, to be render once only, payload and content will come from chache in its file system
 
@@ -110,7 +110,6 @@ you need to build the app for production, and because next is using the default 
 ![Alt text](readme_imgs/dynamic-static-ssr-pages.png)
 
 > npm run build // to create a new build
-
 > npm run start // to run the prod build
 
 when you build, you c
@@ -119,9 +118,9 @@ circle is static
 ![Alt text](readme_imgs/image-5.png)
 ![Alt text](readme_imgs/image-6.png)
 
-# Next.js Fundamentals
+## Next.js Fundamentals
 
-#### Terms
+### Terms
 
 - Client componentsClient-side Rendering (CSR)
 - Dynamic rendering
@@ -131,7 +130,7 @@ circle is static
 - Static rendering
 - Static Site Generation (SSG)
 
-#### Summary
+### Summary
 
 - Next.js is a framework for building fast, and search-engine friendly applications.
 - It includes a compiler for transforming and minifying JavaScript code, a Command-line Interface (CLI) for building and starting our application, and a Node.js runtime for running backend code. This enables full-stack development.
@@ -148,9 +147,9 @@ circle is static
 
 ![Alt text](readme_imgs/image-7.png)
 
-# Styling
+## Styling
 
-#### Terms
+### Terms
 
 - CSS modules
 - Daisy UI
@@ -158,7 +157,7 @@ circle is static
 - PostCSS
 - Tailwind
 
-#### Summary
+### Summary
 
 - In Next.js projects, we define global styles in /app/global.css. Reserve this file for global styles that need to be applied across multiple pages and components. Avoid adding excessive styles to this file, as it can quickly grow out of hand and become difficult to maintain.
 - In traditional CSS, if we define the same class in two different files, one will overwrite the other depending on the order in which these files are imported. CSS modules help us prevent this problem. A CSS module is a CSS file that is scoped to a page or component.
@@ -166,27 +165,27 @@ circle is static
 - Tailwind is a widely-used CSS framework for styling application. It offers a comprehensive set of small, reusable utility classes. We can combine these classes to create beautiful user interfaces.
 - DaisyUI is a component library built on top of Tailwind. It provides a collection of pre-designed and reusable components such as accordion, badge, card, etc.
 
-#### CSS Modules.
+## CSS Modules.
 
 it helps to prevent a named class does not override with other. this ocurrs when we import files with same class names,
 we use css modules to separate their concern.
 as the javascript engine takes care of it, we need to keep the class names as key for objects in javascript.
 meaning we should not use - in names like: class-name, we use camelCase: className
 
-#### postcss.config.js
+## postcss.config.js
 
 this file helps configure so that css modules work in nextjs. the idea is to autogenerate new classnames so that even if we repeat names. they wont crash
 
-#### Tailwind
+## Tailwind
 
 one benefit is many classes out of the box, and whenever a component is removed with its class, if the class is not used anywhere else, then the build will not include that class anymore. helping to clean the code automatically.
 
-#### Daisy UI
+## Daisy UI
 
 This is a boostrap for tailwind
 install: https://daisyui.com/docs/install/
 
-#### special files in Nextjs
+## special files in Nextjs
 
 - page.tsx: We already used this to create our pages.
 - layout.tsx: Defined to create the layouts per folder.
@@ -195,22 +194,15 @@ install: https://daisyui.com/docs/install/
 - template.tsx: Optional and very similar to layout, but this one will always remount on navigation, and the state is not shared.
 - head.tsx: Optional to add a different <head> tag for a specific route.
 
-#### About navigation with Link
+## About navigation with Link
 
 only downloads the content of the target page.
 pre-fetches link that are in portview
 caches pages on the client
 
-#### Navigation
+# Navigation - note useRouter from next/router is depricated instead use next/navigation
 
-note that next/router ----> useRouter is depricated:
-
-> Unhandled Runtime Error
-> Error: NextRouter was not mounted. https://nextjs.org/docs/messages/next-router-not-mounted
-
-instead use next/navigation
-
-#### Suspense and Loading
+## Suspense and Loading
 
 we can think about 3 ways of showing loading states.
 1 directly in a parent component
@@ -218,7 +210,7 @@ we can think about 3 ways of showing loading states.
 we do this by adding the element in the layout file
 3 using the special file loading.tsx to get loading states under the hood
 
-#### Handling not found files
+## Handling not found files
 
 there is a build in function within next to navigate to a not-found.tsx view: notFound()
 
@@ -227,7 +219,7 @@ there is a build in function within next to navigate to a not-found.tsx view: no
 
 when a new not-found.tsx page is added to the same level of a page.tsx, then that will be the view rendered.
 
-#### Error handling
+## Error handling
 
 in dev mode (npm run dev) we can see a stacktrace of the error, but in production build, a generic error page is displayed.
 
@@ -237,19 +229,19 @@ in dev mode (npm run dev) we can see a stacktrace of the error, but in productio
 we can create a custom error page with the special file: error.tsx (it must be a client-component wuth 'use client' clause)
 error pages can be at any level of the application
 
-Note: for specific errros in the layout.tsx , we need a special catcher file for errors, name global-error.tsx at the app level as well.
+Note: for specific errros in the layout.tsx , we need a special catcher file for errors, name `global-error.tsx` at the app level as well.
 
-the error event is automatically passed to the component, so we can do stuff with it. look at the error.tsx file for the example
+the error event is automatically passed to the component, so we can do stuff with it. look at the `error.tsx` file for the example
 
 Login error in prod: Sentry (sentry.io/welcome/)
 
-# Routing and Navigation (summary)
+## Routing and Navigation (summary)
 
-#### terms:
+### terms:
 
 - Client cache, Dynamic routes, Layout, Prefetching
 
-#### Summary
+### Summary
 
 - The new App router in Next.js uses convention over configuration to define routes. It looks for special files such as page.tsx, layout.tsx, loading.tsx, route.tsx, etc.
 - With the App router, we can colocate our pages and their building blocks (eg components, services, etc). This helps us better organize our projects as we can keep highly related files next to each other. No need to dump all the components in a centralized components directory.
@@ -261,58 +253,73 @@ Login error in prod: Sentry (sentry.io/welcome/)
 
 ## File Conventions
 
-page.tsx
-layout.tsx
-loading.tsx
-not-found.tsx
-error.tsx
+- page.tsx
+- layout.tsx
+- loading.tsx
+- not-found.tsx
+- error.tsx
 
 ![Alt text](readme_imgs/image-routes-and-navigation.png)
 
-# Building an API
+## Building an API
 
 conventional file: route.tsx
 NextRequest and NextResponse are used as middlewares
 api objects validation with Zod -> https://zod.dev/
 
+```
 import { z } from "zod";
-
 const schema = z.object({
-name: z.string().min(3),
-// email: z.string().email(),
-// age: z.number(),
+  name: z.string().min(3),
+  email: z.string().email(),
+  age: z.number(),
 });
-
 export default schema;
+```
 
-///// ----- /////
-
+```
 const validation = schema.safeParse(body);
-if (!validation.success)
-return NextResponse.json(
-{ error: validation.error.errors },
-{ status: 400 }
-// if error is found, this is the structure:
-// {
-// "error": [
-// {
-// "code": "too_small",
-// "minimum": 3,
-// "type": "string",
-// "inclusive": true,
-// "exact": false,
-// "message": "String must contain at least 3 character(s)",
-// "path": [
-// "name"
-// ]
-// }
-// ]
-// }
-);
+  if (!validation.success)
+    return NextResponse.json(
+      { error: validation.error.errors },
+      { status: 400 }
+    );
+```
 
-# Building API (summary):
+```
+if error is found, this is the structure:
+{
+"error": [
+  {
+    "code": "too_small",
+    "minimum": 3,
+    "type": "string",
+    "inclusive": true,
+    "exact": false,
+    "message": "String must contain at least 3 character(s)",
+    "path": [
+      "name"
+      ]
+    }
+  ]
+}
 
-#### Terms:
+```
+
+we can infer a schema from z to be used as Typescript interfaces.
+eg:
+
+```
+type issueForm = z.infer<typeof createIssueSchema>;
+// interface issueForm {
+//   title: string;
+//   description: string;
+// }
+```
+
+## Building API (summary):
+
+### Terms:
 
 - API endpoint
 - Data validation library: Zod
@@ -320,7 +327,7 @@ return NextResponse.json(
 - Route handlers
 - Postman tool
 
-#### Summary
+### Summary
 
 - To build APIs, we add a route file (route.tsx) in a directory. Note that within a single directory, we can either have a page or a route file but not both. •In route files, we add one or more route handlers. A route handler is a function that handles an HTTP request.
 - HTTP requests have a method which can be GET (for getting data), POST (for creating data), PUT/PATCH (for updating data), and DELETE (for deleting data).
@@ -332,7 +339,7 @@ return NextResponse.json(
 - To delete an object, the client should send a DELETE request to an API endpoint. The request body should be empty.
 - We can use Postman for testing APIs. With Postman we can easily send HTTP requests to API endpoints and inspect the responses.
 
-# Database integration with Prisma
+## Database integration with Prisma
 
 Testing and installing MySQL engine and workbench tool locally - https://dev.mysql.com/downloads/mysql/
 we also added prisma ORM https://www.prisma.io/
@@ -358,13 +365,13 @@ created the prisma client instance to be using in the code
 note: to use Prisma client instance in development, we need to add additional code to prevent the refresh (2twice load) from dev to create too many instances in every import.
 see: https://www.prisma.io/docs/guides/other/troubleshooting-orm/help-articles/nextjs-prisma-client-dev-practices
 
-#### Terms
+### Terms
 
 - Database engine: mysql
 - Object Oriented Mapper (ORM) - Prisma
 - Models and migrations
 
-#### Summary
+### Summary
 
 - We use databases to permanently store data. There are many database engines available. Some of the popular ones are MySQL, PostgreSQL, MongoDB, etc.
 - To connect our applications to a database, we often use an Object-relational Mapper (ORM). An ORM is a tool that sits between a database and an application. It’s responsible for mapping database records to objects in an application. Prisma is the most widely-used ORM for Next.js (or Node.js) applications.
@@ -372,38 +379,35 @@ see: https://www.prisma.io/docs/guides/other/troubleshooting-orm/help-articles/n
 - Once we create a model, we use Prisma CLI to create a migrationfile. A migration file contains instructions to generate or update database tables to match our models. These instructions are in SQL language, which is the language database engines understand.
 - To connect with a database, we create an instance of PrismaClient. This client object gets automatically generated whenever we create a new migration. It exposes properties that represent our models (eg user).
 
-#### Key commands
+## Key commands
 
-Setting up Prisma
+- Setting up Prisma `npx prisma init`
+- Format schema file `npx prisma format`
+- Creting and running a migration `npm prisma migrate dev`
 
-> npx prisma init
+## Uploading files with Cloudinary
 
-Format schema file
-
-> npx prisma format
-
-Creting and running a migration
-
-> npm prisma migrate dev
-
-# Uploading files with Cloudinary
-
-#### Setup cloudinary
-
-install the npm package: https://console.cloudinary.com/console/c-7a6c04749c39512e5174cf535ef869/getting-started
-complete the setup for next env: https://next.cloudinary.dev/
+- Setup cloudinary:
+  install the npm package: https://console.cloudinary.com/console/c-7a6c04749c39512e5174cf535ef869/getting-started
+  complete the setup for next env: https://next.cloudinary.dev/
 
 - To add the upload widget, we need to get the upload preset key from settings of our account.
   https://console.cloudinary.com/settings/c-7a6c04749c39512e5174cf535ef869/upload
   make sure to add the upload preset.
+
   - we create an unsign preset for this project
+
+```
+
     <CldUploadWidget process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME">
-    {({ open }) => (
-    <button className="btn btn-primary" onClick={() => open()}>
-    Upload
-    </button>
-    )}
+      {({ open }) => (
+          <button className="btn btn-primary" onClick={() => open()}>
+              Upload
+          </button>
+      )}
     </CldUploadWidget>
+
+```
 
 this simple integration brings to life the upload component:
 ![Alt text](readme_imgs/cloudinary-upload.png)
@@ -419,47 +423,51 @@ this simple integration brings to life the upload component:
 - Ensure NEXTAUTH_SECRET is added .env for local dev.
 - it doesn't need any prefix or sufix, keep it as: NEXTAUTH_SECRET
 
-#### Configure Google Provider for Next Auth
+## Configure Google Provider for Next Auth
 
 - docs: https://next-auth.js.org/providers/google
 
-  - using ekos sv project: https://console.cloud.google.com/apis/credentials/consent?authuser=4&project=next-app-401523&supportedpurview=project
+- using ekos sv project: https://console.cloud.google.com/apis/credentials/consent?authuser=4&project=next-app-401523&supportedpurview=project
 
-  - in the consent screen, we choose external type.
-  - we setup the Oauth consent screen, the scopes, test users in the wizard
-    - in the scopes, added .../auth/userinfo.email and .../auth/userinfo.profile
+- in the consent screen, we choose external type.
+- we setup the Oauth consent screen, the scopes, test users in the wizard
+
+  - in the scopes, added .../auth/userinfo.email and .../auth/userinfo.profile
 
 - the authorized origin add localhost:3000 for development, make sure to add hosting domain as well.
 - the redirect url is grabbed from the next auth for google - https://next-auth.js.org/providers/google
-  - For production: https://{YOUR_DOMAIN}/api/auth/callback/google
-  - For development: http://localhost:3000/api/auth/callback/google
+- For production: https://{YOUR_DOMAIN}/api/auth/callback/google
+- For development: http://localhost:3000/api/auth/callback/google
 
-#### Configure Facebook Provider for Next Auth
+## Configure Facebook Provider for Next Auth
 
 - docs: https://next-auth.js.org/providers/facebook
 - creating an app within facebook for developers: https://developers.facebook.com/apps/819546503241366/dashboard/
 
-  - created next_app_demo for production
-  - created next_app_test for dev
+- created next_app_demo for production
+- created next_app_test for dev
 
 - as facebook has its built in oauth application, see docs: https://next-auth.js.org/configuration/providers/oauth
 - callback url:
-  - https://next-app-ten-azure.vercel.app/api/auth/callback/facebook (prod)
-  - http://localhost:3000/api/auth/callback/facebook (dev)
+- https://next-app-ten-azure.vercel.app/api/auth/callback/facebook (prod)
+- http://localhost:3000/api/auth/callback/facebook (dev)
 
-#### Configure GitHub Provider for Next Auth
+## Configure GitHub Provider for Next Auth
 
 - NOTE: only allows one callback url - meaning it will only work for prod in this demo
 - docs: https://next-auth.js.org/providers/github
 - creating an OAuth app within github: https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/creating-an-oauth-app
-  - go to developer settings and create the oauth app.
+- go to developer settings and create the oauth app.
 
-#### Authentication sessions
+## Authentication sessions
 
 - sessions in nextjs are created as cookies, as JSON web tokens.
 - for testing purposes, creted the GET token endpoint to better understand the session in NextJS
 
-created this file: /auth/token/route.tsx
+`created this file: /auth/token/route.tsx`
+
+```
+
 import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -468,9 +476,11 @@ const token = await getToken({ req: request });
 return NextResponse.json(token);
 }
 
+```
+
 - to check the token: http://localhost:3000/api/auth/token
 
-#### Accessing sessions on the client
+## Accessing sessions on the client
 
 - in the layout.tsx file, we add the sessionProvider component from 'next-auth/react'
 - we need to create this as a wrapper provider, with the 'use client' because it will interact client rendering and events.
@@ -478,17 +488,17 @@ return NextResponse.json(token);
 - wherever we use the useSession() hook, we need to turn the component to a client-component (example in NavBar)
 - but we can also access the session data from the server.
 
-#### Accessing sessions on the server
+## Accessing sessions on the server
 
 - to access data in the server we use getServerSession() from "next-auth", we use page.tsx in the root directory, meaning home component file for this example
 - this functions uses the auth options of the provider, the same way as the nextAuth handler
 
-#### Logout session
+## Logout session
 
 the logout session is already handled by next-auth, we <Link> to /api/auth/signout and it will take us to the logout provider page
 we can customize it on the provider page
 
-#### Protecting routes
+## Protecting routes
 
 we use a middleware to inspect every request and determine the next step.
 
@@ -500,23 +510,26 @@ we use a middleware to inspect every request and determine the next step.
 
 and this object is to determine the matches:
 
+```
 export const config = {
-// \*: zero or more
-// +: one or more
-// ?: zero or more
-matcher: ["/users/:id\*"],
+  // \*: zero or more
+  // +: one or more
+  // ?: zero or more
+  matcher: ["/users/:id\*"],
 };
+
+```
 
 documentation: https://next-auth.js.org/tutorials/securing-pages-and-api-routes
 
-#### Storing user's data with database adapters
+## Storing user's data with database adapters
 
 documentation: https://next-auth.js.org/adapters --> https://authjs.dev/reference/adapter/prisma
 
 - we install the npm package: npm i @next-auth/prisma-adapter
 - initialize the adapter in NextAuth route.ts
 
-##### Replacing prisma modules
+## Replacing prisma modules
 
 as we are going to store User data from the provider, the prisma adapter dictates the model structure.
 in order to remove our own models, we need to run migrations to clear out the db as well, in preparation of the changes.
@@ -531,46 +544,52 @@ and by default, the session of NextJS is JWT, JSON web token, so this generates 
 at the time of this implementation, we can not use database session with social logins or oauth provider.
 so we dictate the session strategy in the adapter, we set it as jwt to be compatible. (meaning that the token will still be saved in the cookies of the browser)
 
+```
 session: {
-strategy: "jwt",
+  strategy: "jwt",
 },
+```
 
 ##### allowing user / pass credential provider with prisma
 
 - we configure as the provider
 - we install bcrypt to compare passwords and its types
-  > npm i bcrypt
-  > npm i --save-dev @types/bcrypt
+  `npm i bcrypt`
+  `npm i --save-dev @types/bcrypt`
 - we need to add a password field optional to the User model, to play and store password. (this wont save for goolge provider)
-  > password String?
+  `password String?`
 - run migration with prisma
-  > npx prisma migrate dev
+  `npx prisma migrate dev`
+
+```
 
 CredentialsProvider({
-name: "Credentials",
-credentials: {
-email: { label: "Email", type: "email", placeholder: "Email" },
-password: {
-label: "Password",
-type: "password",
-placeholder: "Password",
-},
-},
-async authorize(credentials, \_) {
-if (!credentials?.email || !credentials?.password) {
-return null;
-}
-const user = await prisma.user.findUnique({
-where: { email: credentials?.email },
-});
-if (!user) return null;
-const passwordsMatched = await bcrypt.compare(
-credentials.password,
-user.hashedPassword!
-);
-return passwordsMatched ? user : null;
-},
+  name: "Credentials",
+  credentials: {
+    email: { label: "Email", type: "email", placeholder: "Email" },
+    password: {
+      label: "Password",
+      type: "password",
+      placeholder: "Password",
+    },
+  },
+  async authorize(credentials, \_) {
+    if (!credentials?.email || !credentials?.password) {
+    return null;
+    }
+    const user = await prisma.user.findUnique({
+       where: { email: credentials?.email },
+    });
+    if (!user) return null;
+    const passwordsMatched = await bcrypt.compare(
+    credentials.password,
+    user.hashedPassword!
+    );
+    return passwordsMatched ? user : null;
+    },
 }),
+
+```
 
 ##### Registering new Users for CredentialsProvider
 
@@ -639,35 +658,26 @@ return passwordsMatched ? user : null;
 - for remote images, we need to configure the `remotePatterns`, see docs: https://nextjs.org/docs/pages/building-your-application/optimizing/images#remote-images
 - this file should be the more explicit possible for security concerns:
 
-  > module.exports = {
-  >
-  > images: {
-  >
-  > remotePatterns: [
-  >
-  > > {
-  >
-  > > protocol: 'https',
-  >
-  > > hostname: 's3.amazonaws.com',
-  >
-  > > port: '',
-  >
-  > > pathname: '/my-bucket/\*\*',
-  >
-  > > },
-  >
-  > > ],
-  >
-  > > },
-  >
-  > > }
+```
+
+module.exports = {
+images: {
+remotePatterns: [
+{
+protocol: 'https',
+hostname: 's3.amazonaws.com',
+port: '',
+pathname: '/my-bucket/\*\*',
+},
+]
+}
+}
+
+```
 
 - you can also style it with tailwind,
-
-  > div className="relative h-screen"
-
-  > Image fill className="object-cover" sizes="100vw"
+  `div className="relative h-screen"`
+  `Image fill className="object-cover" sizes="100vw"`
 
 - note the parent div with relative position, this is because we set a fill position for the image itself. the h-screen property means it will take height: 100% of the screen
 
@@ -688,11 +698,11 @@ if you need it for all pages, use the layout at the root project
 
 ##### Tips:
 
-- To avoid errors of inline scripts in the <Script> element we use back-tilds to pass all content as a text child and so the element will interprets the string as javascript content
+- To avoid errors of inline scripts in the `<Script>` element we use back-tilds to pass all content as a text child and so the element will interprets the string as javascript content
 
-  > <Script>{`long google tag script passed as string and compiled as JS after`}</Script>
+  > `<Script>`{`long google tag script passed as string and compiled as JS after`}`</Script>`
 
-- <Script> element has strategy property:
+- `<Script>` element has strategy property:
 
 #### afterInteractive:
 
@@ -717,24 +727,23 @@ if you need it for all pages, use the layout at the root project
 
 # Implementing Fonts
 
-you use the next/font libary
-
-> import { Inter, Roboto } from "next/font/google";
+you use the next/font libary `import { Inter, Roboto } from "next/font/google"`
 
 then you create an object with params
 
-> const roboto = Roboto({
+```
 
-> subsets: ["latin"],
+const roboto = Roboto({
+subsets: ["latin"],
+weight: ["400", "500"],
+});
 
-> weight: ["400", "500"],
-
-> });
+```
 
 and lastly we apply the className property.
 roboto
 
->    <body className={roboto.className}>
+`<body className={roboto.className}>`
 
 #### local fonts (other than google)
 
@@ -843,22 +852,50 @@ video course: https://members.codewithmosh.com/courses/nextjs-projects-issue-tra
 - from it you can copy the configuration and set the `     <Theme appearance="light" accentColor="grass" radius="small">` at the layout level.
 - Now how to configure our local font ? https://www.radix-ui.com/themes/docs/theme/typography
 
-## adding a MarkDown editor
+## Adding a MarkDown editor
 
 - SimpleMDE: https://www.npmjs.com/package/react-simplemde-editor
 
-## adding a form submission lib
+- Important hack to allow build:
+
+```
+import dynamic from "next/dynamic";
+const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
+  ssr: false,
+});
+```
+
+- Note: a pre-render error occurred in every build, thowing a navigator not defined.
+  - reading thru this error, its related to useRouter depricated, server client code issues in client side render components. after troubleshooting. this is the best solution to prevent pre-render
+
+## Adding a form submission lib
 
 - react hook form: https://www.npmjs.com/package/react-hook-form
 - import useForm, this one facilitates to collect all data from a form, to avoid using multiple useState, just binding the `{...register("title")}` to each input element.
 - for complex elements, a Controller element should wrap it:
-  ```<Controller
-          name="description"
-          control={control}
-          render={(field) => <SimpleMDE placeholder="Description" {...field} />}
-        />
-  ```
+
+```
+
+<Controller
+name="description"
+control={control}
+render={(field) => <SimpleMDE placeholder="Description" {...field} />}
+/>
+
+```
+
+- we need to install: `npm i @hookform/resolvers@3.3.1` in order to use zod validations with it
+- using `import { zodResolver } from "@hookform/resolvers/zod";`
+- the implementation looks like this:
+
+```
+
+const { register, control, handleSubmit } = useForm<issueForm>({
+resolver: zodResolver(createIssueSchema),
+});
+
+```
 
 ## Adding Axios lib
 
--
+- we can have better error responses and structured with axios
