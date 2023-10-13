@@ -854,9 +854,8 @@ video course: https://members.codewithmosh.com/courses/nextjs-projects-issue-tra
 
 ## Adding a MarkDown editor
 
-- SimpleMDE: https://www.npmjs.com/package/react-simplemde-editor
-
-- Important hack to allow build:
+- SimpleMDE: https://github.com/RIP21/react-simplemde-editor
+- Important hack to allow build: (lazy-laoding import needed)
 
 ```
 import dynamic from "next/dynamic";
@@ -867,6 +866,7 @@ const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
 
 - Note: a pre-render error occurred in every build, thowing a navigator not defined.
   - reading thru this error, its related to useRouter depricated, server client code issues in client side render components. after troubleshooting. this is the best solution to prevent pre-render
+    see solution: https://github.com/RIP21/react-simplemde-editor/issues/30
 
 ## Adding a form submission lib
 

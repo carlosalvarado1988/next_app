@@ -14,6 +14,7 @@ import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { CallOutError } from "../../../components/CallOutError";
+import { ErrorInlineMessage } from "../../../components/ErrorInlineMessage";
 
 import "easymde/dist/easymde.min.css";
 
@@ -52,11 +53,7 @@ const NewIssuePage = () => {
         <TextField.Root>
           <TextField.Input placeholder="Title" {...register("title")} />
         </TextField.Root>
-        {errors.title && (
-          <Text color="red" as="p">
-            {errors.title.message}
-          </Text>
-        )}
+        <ErrorInlineMessage>{errors.title?.message}</ErrorInlineMessage>
 
         <Controller
           name="description"
@@ -65,12 +62,7 @@ const NewIssuePage = () => {
             <SimpleMDE id="editor" placeholder="Description" {...field} />
           )}
         />
-
-        {errors.description && (
-          <Text color="red" as="p">
-            {errors.description.message}
-          </Text>
-        )}
+        <ErrorInlineMessage>{errors.description?.message}</ErrorInlineMessage>
 
         <Button>Submit New Issue</Button>
       </form>
