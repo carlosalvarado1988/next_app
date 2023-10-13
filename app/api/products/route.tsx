@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/prisma/client";
 
 import productSchema from "./schema";
-import { reportError } from "../utils";
+import { reportError } from "../utils/nextResponses";
 
 export async function GET(request: NextRequest) {
   const products = await prisma.product.findMany();

@@ -4,7 +4,7 @@ import React, { useState } from "react";
 
 // lazy loading implementation of a component with dynamic
 import dynamic from "next/dynamic";
-const HeavyComponent = dynamic(() => import("./components/HeavyComponent"), {
+const HeavyComponent = dynamic(() => import("../components/HeavyComponent"), {
   loading: () => <p>loading</p>,
   ssr: false,
 });
@@ -19,14 +19,14 @@ export default function Home() {
   const [users, setUsers] = useState(initialUsers);
 
   return (
-    <div>
-      <h1 className="font-bold text-3xl">Hello Playground</h1>
+    <div className="flex flex-col items-center">
+      <h1 className="font-bold text-3xl">Lazy Loading</h1>
       <div className="flex mb-3">
         <button
           className="btn btn-secondary mb-3"
           onClick={() => setShow(!show)}
         >
-          Lazy load Heavy Component
+          Heavy Component
         </button>
         {show && <HeavyComponent />}
       </div>
@@ -41,8 +41,9 @@ export default function Home() {
             setUsers(orderedUsers);
           }}
         >
-          Order users with lazy loading lodash
+          Library
         </button>
+        <p>Fetching lodash to order elements</p>
         <ul>
           {users.map((u) => (
             <li key={u.name}>{u.name}</li>

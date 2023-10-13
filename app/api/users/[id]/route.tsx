@@ -2,7 +2,8 @@ import prisma from "@/prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import schema from "../schema";
 
-import { findUserById, reportError } from "../../utils";
+import { findUserById } from "../../utils";
+import { reportError } from "../../utils/nextResponses";
 
 interface GetProps {
   params: { id: string };

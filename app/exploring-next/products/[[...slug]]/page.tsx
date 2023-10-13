@@ -2,8 +2,8 @@ import React from "react";
 import Link from "next/link";
 import { getServerSession } from "next-auth";
 
-import { authOptions } from "../../api/auth/[...nextauth]/route";
-import ProductCard from "../../components/ProductCard";
+import { authOptions } from "../../../api/auth/[...nextauth]/route";
+import ProductCard from "../../../components/ProductCard";
 import { Metadata } from "next";
 
 interface Props {
@@ -24,13 +24,13 @@ const ProductPage = async ({
       <div className="mb-3">
         <ul>
           <li>
-            <Link className="btn btn-accent mb-3" href="/users">
-              /users - Link element
+            <Link className="btn btn-accent mb-3" href="/exploring-next/users">
+              /exploring-next//users - Link element
             </Link>
           </li>
           <li>
-            <a href="/users" className="btn btn-neutral">
-              /users - Archor (non performant)
+            <a href="/exploring-next/users" className="btn btn-neutral">
+              /exploring-next//users - Archor (non performant)
             </a>
           </li>
         </ul>
