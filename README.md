@@ -839,3 +839,6 @@ video course: https://members.codewithmosh.com/courses/nextjs-projects-issue-tra
 - similar to DaysiUI, a boostrap library of elements
 - I use radix-ui theme in this demo
 - you import the lib in the root layout: `import '@radix-ui/themes/styles.css';`
+- when building ui, at the layout level you can insert the ThemePanel element to play with the theme options.
+- from it you can copy the configuration and set the `     <Theme appearance="light" accentColor="grass" radius="small">` at the layout level.
+- Now how to configure our local font ? https://www.radix-ui.com/themes/docs/theme/typography

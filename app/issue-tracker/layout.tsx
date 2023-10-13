@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-
 import { IssueTrackerNavBar } from "./IssueTrackerNavBar";
 
 export const metadata: Metadata = {

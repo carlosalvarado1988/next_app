@@ -20,7 +20,7 @@ export default function Home() {
 
   return (
     <div>
-      <h1 className="font-bold text-3xl">Hello World</h1>
+      <h1 className="font-bold text-3xl">Hello Playground</h1>
       <div className="flex mb-3">
         <button
           className="btn btn-secondary mb-3"
